@@ -3,7 +3,7 @@
 This quickstart is written specifically for native iOS apps that are written in Swift and using Alamofire for making the API calls that you wish to protect with Approov. If this is not your situation then check if there is a more relevant quickstart guide available.
 
 ## WHAT YOU WILL NEED
-* Access to either a demo or trial Approov account
+* Access to either the demo account ([request access here](https://info.approov.io/demo-token)) or a trial/paid Approov account
 * The `approov` command line tool [installed](https://approov.io/docs/latest/approov-installation/) with environment variable `APPROOV_MANAGEMENT_TOKEN` set with your account access token
 * [Xcode](https://developer.apple.com/xcode/) version 11 installed (version 11.4.1 is used in this guide)
 * The contents of the folder containing this README
@@ -178,7 +178,7 @@ If you still don't get a valid shape then there are some things you can try. Rem
 
 * Ensure that the version of the app you are running is exactly the one you registered with Approov.
 * If you run the app from a debugger then valid tokens are not issued.
-* Look at the [`syslog`](https://developer.apple.com/documentation/os/logging) output from the device. Information about any Approov token fetched or an error is printed, e.g. `Approov: example, ios.swift.shapes.demo.approov.io, 2.2.3(4289), LXW8hGuB5KCfMHkr9cfGyw==`. You can easily [check](https://approov.io/docs/latest/approov-usage-documentation/#loggable-tokens) the validity.
+* Look at the [`syslog`](https://developer.apple.com/documentation/os/logging) output from the device. Information about any Approov token fetched or an error is printed, e.g. `Approov: Approov token for host: https://approov.io : {"anno":["debug","allow-debug"],"did":"/Ja+kMUIrmd0wc+qECR0rQ==","exp":1589484841,"ip":"2a01:4b00:f42d:2200:e16f:f767:bc0a:a73c","sip":"YM8iTv"}`. You can easily [check](https://approov.io/docs/latest/approov-usage-documentation/#loggable-tokens) the validity.
 
 If you have a trial (as opposed to demo) account you have some additional options:
 * Consider using an [Annotation Policy](https://approov.io/docs/latest/approov-usage-documentation/#annotation-policies) during development to directly see why the device is not being issued with a valid token.
