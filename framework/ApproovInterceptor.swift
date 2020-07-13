@@ -92,8 +92,8 @@ public final class ApproovTrustEvaluator: ServerTrustEvaluating {
                 }
                 // We have one or more cert hashes matching the receivers host, compare them
                 for serverPublicKey in trust.af.publicKeys {
-                    if let spki = getSPKIHeader(publicKey: serverPublicKey){
-                        // compute the SHA-256 hash of the public key info and base64 encode the result
+                    do {
+                        let spki = try getSPKIHeader(publicKey: serverPublicKey)
                         let publicKeyHash = sha256(data: spki)
                         let publicKeyHashBase64 = String(data:publicKeyHash.base64EncodedData(), encoding: .utf8)
                         for certHash in certHashList {
@@ -101,10 +101,11 @@ public final class ApproovTrustEvaluator: ServerTrustEvaluating {
                                 return true
                             }
                         }
-                    } else {
+                    } catch let error {
                         // Throw to indicate we could not parse SPKI header
-                        throw ApproovError.runtimeError(message: "Error parsing SPKI header for host \(host) Unsupported certificate type, SPKI header cannot be created")
+                        throw error
                     }
+                    
                 }
             }
             return false
@@ -116,17 +117,19 @@ public final class ApproovTrustEvaluator: ServerTrustEvaluating {
     }
     
     /* Utility */
-    func getSPKIHeader(publicKey: SecKey) -> Data? {
+    func getSPKIHeader(publicKey: SecKey) throws -> Data {
         // get the SPKI header depending on the public key's type and size
-        guard var spkiHeader = publicKeyInfoHeaderForKey(publicKey: publicKey) else {
-            return nil
+        do {
+            var spkiHeader = try publicKeyInfoHeaderForKey(publicKey: publicKey)
+            // combine the public key header and the public key data to form the public key info
+            guard let publicKeyData = SecKeyCopyExternalRepresentation(publicKey, nil) else {
+                throw ApproovError.runtimeError(message: "Error parsing SPKI header: SecKeyCopyExternalRepresentation key is not exportable")
+            }
+            spkiHeader.append(publicKeyData as Data)
+            return spkiHeader
+        } catch let error {
+            throw error
         }
-        // combine the public key header and the public key data to form the public key info
-        guard let publicKeyData = SecKeyCopyExternalRepresentation(publicKey, nil) else {
-            return nil
-        }
-        spkiHeader.append(publicKeyData as Data)
-        return spkiHeader
     }
     
     /*  SHA256 of given input bytes
@@ -143,9 +146,9 @@ public final class ApproovTrustEvaluator: ServerTrustEvaluating {
     /*
    * gets the subject public key info (SPKI) header depending on a public key's type and size
    */
-   func publicKeyInfoHeaderForKey(publicKey: SecKey) -> Data? {
+   func publicKeyInfoHeaderForKey(publicKey: SecKey) throws -> Data {
        guard let publicKeyAttributes = SecKeyCopyAttributes(publicKey) else {
-           return nil
+           throw ApproovError.runtimeError(message: "Error parsing SPKI header: SecKeyCopyAttributes failure getting key attributes")
        }
        if let keyType = (publicKeyAttributes as NSDictionary).value(forKey: kSecAttrKeyType as String) {
            if let keyLength = (publicKeyAttributes as NSDictionary).value(forKey: kSecAttrKeySizeInBits as String) {
@@ -155,7 +158,7 @@ public final class ApproovTrustEvaluator: ServerTrustEvaluating {
                }
            }
        }
-       return nil
+       throw ApproovError.runtimeError(message: "Error parsing SPKI header: unsupported key length or unsupported key type")
    }
 }
 
@@ -454,3 +457,5 @@ public class ApproovSession: Session {
                    eventMonitors: eventMonitors)
     }
 }
+
+
