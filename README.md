@@ -5,10 +5,10 @@ This quickstart is written specifically for native iOS apps that are written in 
 ## WHAT YOU WILL NEED
 * Access to a trial or paid Approov account
 * The `approov` command line tool [installed](https://approov.io/docs/latest/approov-installation/) with access to your account
-* [Xcode](https://developer.apple.com/xcode/) version 11 installed (version 11.4.1 is used in this guide)
+* [Xcode](https://developer.apple.com/xcode/) version 12 installed (version 12.3 is used in this guide)
 * The contents of the folder containing this README
 * An Apple mobile device with iOS 10 or higher
-* [Cocoapods](https://cocoapods.org) package manager installed (version 1.9.1 is used in this guide)
+* [Cocoapods](https://cocoapods.org) package manager installed (version 1.10.1 is used in this guide)
 
 ## WHAT YOU WILL LEARN
 * How to integrate Approov into a real app in a step by step fashion
@@ -29,14 +29,14 @@ Generating Pods project
 Integrating client project
 Pod installation complete! There is 1 dependency from the Podfile and 1 total pod installed.
 ```
-This downloads the Alamofire framework and updates the directory structure. Please, do not use the project file `ApproovShapes.xcworkspace`. Instead always
+This downloads the Alamofire framework and updates the directory structure. Please, do not use the project file `ApproovShapes.xcodeproj`. Instead always
 use the workspace file `ApproovShapes.xcworkspace`.
 
 ## RUNNING THE SHAPES APP WITHOUT APPROOV
 
 Open the `ApproovShapes.xcworkspace` project in the `shapes-app` folder using `File->Open` in Xcode. Ensure the `ApproovShapes` project is selected at the top of Xcode's project explorer panel.
 
-Select your codesigning certificate in the `Signing & Capabilities` tab and run the application on your prefered device.
+Select your codesigning certificate in the `Signing & Capabilities` tab and run the application on your prefered device. Note that if you have difficulties codesigning the application, change the `Bundle Identifier` in the General tab to contain a unique prefix.
 
 ![Codesign App](readme-images/codesign-app.png)
 
@@ -64,10 +64,10 @@ This contacts `https://shapes.approov.io/v2/shapes` to get the name of a random 
 
 Get the latest Approov SDK (if you are using Windows then substitute `approov` with `approov.exe` in all cases in this quickstart)
 ```
-$ approov sdk -getLibrary approov-sdk.zip
-$ unzip approov-sdk.zip
+$ approov sdk -getLibrary Approov.xcframework
+$ iOS SDK library 2.6.0(5851) written to Approov.xcframework
 ```
-In Xcode select `File` and then `Add Files to "ApproovShapes"...` and select the unzipped Approov.framework folder from the previous command:
+In Xcode select `File` and then `Add Files to "ApproovShapes"...` and select the Approov.xcframework folder from the previous command:
 
 ![Add Files to ApproovShapes](readme-images/add-files-to-approovshapes.png)
 
@@ -129,31 +129,18 @@ The `ApproovSession` class adds the `Approov-Token` header and also applies pinn
 
 ## REGISTER YOUR APP WITH APPROOV
 
-In order for Approov to recognize the app as being valid it needs to be registered with the service. This requires building an `.ipa` file either using the `Archive` option of Xcode (this option will not be available if using the simulator) or building the app and then creating a compressed zip file and renaming it. We use the second option for which we have to make sure a `Generic iOS Device` is selected as build destination. This ensures an `embedded.mobileprovision` is included in the application package which is a requirement for the `approov` command line tool. 
+In order for Approov to recognize the app as being valid it needs to be registered with the service. This requires building an `.ipa` file using the `Archive` option of Xcode (this option will not be avaialable if using the simulator). Make sure `Any iOS Device` is selected as build destination. This ensures an `embedded.mobileprovision` is included in the application package which is a requirement for the `approov` command line tool. 
 
 ![Target Device](readme-images/target-device.png)
 
-We can now build the application by selecting `Product` and then `Build`. Allow the build to finish. In the project explorer panel of Xcode, under the `Products` folder right-click on `ApproovShapes.app` and select the option `Show in Finder` which will show the application in the build directory.
+We can now build the application by selecting `Product` and then `Archive`. Select the apropriate code signing options and eventually a destination to save the `.ipa` file.
 
-![Build app](readme-images/build-app.png)
+Copy the ApproovShapes.ipa file to a convenient working directory. Register the app with Approov:
 
-The build folder will look something like this:
-
-![Build Folder](readme-images/build-folder.png)
-
-Create a new folder, name it `Payload` and move the `ApproovShapes` application to the newly created `Payload` directory:
-
-![Payload Folder](readme-images/payload-folder.png)
-
-Right-click on the `Payload` folder and select `Compress "Payload"`. This will produce a `Payload.zip` file. Rename the `Payload.zip` file to `ApproovShapes.ipa` (note the file extension change).
-
-![Build IPA Result](readme-images/build-ipa-result.png)
-
-Copy the `ApproovShapes.ipa` file to a convenient working directory. Register the app with Approov:
 ```
 $ approov registration -add ApproovShapes.ipa
-registering app Approov Shapes
-SW3NvhtzHajAJIOT6vJyvww/KgORdIGaWqktE24a+as=ios.swift.shapes.demo.approov.io-1.0[1]-4289  SDK:iOS(2.2.3)
+registering app ApproovShapes
+lhB30o4UMuzjDsdNicQ6QiM6cEcC4Y5k/SF72fID/Es=com.yourcompany-name.ApproovShapes-1.0[1]-5851  SDK:iOS-universal(2.6.0)
 registration successful
 ```
 
