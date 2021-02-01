@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "absolute:/Users/ivol/CriticalBlue/ios-swift-alamofire/shapes-app/ApproovShapes.xcodeproj">
+      location = "container:ApproovShapes.xcodeproj">
    </FileRef>
 </Workspace>
