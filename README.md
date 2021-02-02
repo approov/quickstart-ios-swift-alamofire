@@ -71,7 +71,7 @@ In Xcode select `File` and then `Add Files to "ApproovShapes"...` and select the
 
 ![Add Files to ApproovShapes](readme-images/add-files-to-approovshapes.png)
 
-Make sure the `Copy items if needed` option and the target `ApproovShapes` are selected. Once the Approov framework appears in the project structure we have to ensure it is signed and embedded in the ApproovShapes binary. To do so, select the target `ApproovShapes` and in the `General` tab scroll to the `Frameworks, Libraries and Embedded Content` section where the `Approov.framework` entry must have `Embed & Sign` selected in the `Embed` column:
+Make sure the `Copy items if needed` option and the target `ApproovShapes` are selected. Once the Approov framework appears in the project structure we have to ensure it is signed and embedded in the ApproovShapes binary. To do so, select the target `ApproovShapes` and in the `General` tab scroll to the `Frameworks, Libraries and Embedded Content` section where the `Approov.xcframework` entry must have `Embed & Sign` selected in the `Embed` column:
 
 ![Embed & Sign](readme-images/embed-and-sign.png)
 
