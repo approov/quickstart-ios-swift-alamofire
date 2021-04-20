@@ -118,6 +118,12 @@ We need to add the text file to our project and ensure it gets copied to the roo
 
 ## MODIFY THE APP TO USE APPROOV
 
+Before using Approov you need to import the Alamofire Service. In the `ViewController.swift` source file import the service module:
+
+```swift
+import approov_service_alamofire
+```
+
 Find the function definition for `initializeSession()` in the `ViewController.swift` source file:
 ```swift
 // Create the session only if it does not exist yet
