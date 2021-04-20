@@ -60,29 +60,40 @@ This checks the connectivity by connecting to the endpoint `https://shapes.appro
 
 This contacts `https://shapes.approov.io/v2/shapes` to get the name of a random shape. It gets the status code 400 (`Bad Request`) because this endpoint is protected with an Approov token. Next, you will add Approov into the app so that it can generate valid Approov tokens and get shapes.
 
-## ADD THE APPROOV SDK
+## ADD THE APPROOV SDK AND THE APPROOV SERVICE ALAMOFIRE
 
-Get the latest Approov SDK (if you are using Windows then substitute `approov` with `approov.exe` in all cases in this quickstart)
+Get the latest Approov SDK by using `CocoaPods`. The `Podfile` configuration file is located in the `shapes-app/ApproovShapes` directory and should contain a reference to the latest version of the Approov SDK available for iOS and the approov service that enables the ApproovSDK use. The approov-service-alamofire is actually an open source wrapper layer that allows you to easily use Approov with `Alamofire`. This has a further dependency to the closed source Approov SDK itself. 
+The `Approov SDK` and `Approov Service Alamofire` packages are commented out in the `Podfile` so we will need to edit and uncomment the lines that contain the `approov` string.
+
 ```
-$ approov sdk -getLibrary Approov.xcframework
-$ iOS SDK library 2.6.0(5851) written to Approov.xcframework
+target 'ApproovShapes' do
+  use_frameworks!
+  platform :ios, '10.0'
+  # Uncomment the lines bellow to use Approov
+  #pod 'approov-service-alamofire', '2.6.1', :source => "https://github.com/approov/approov-service-alamofire.git"
+  #pod 'approov-ios-sdk', '2.6.1', :source => "https://github.com/approov/approov-ios-sdk.git"
+  pod 'Alamofire', '~> 5.1'
+end
 ```
-In Xcode select `File` and then `Add Files to "ApproovShapes"...` and select the Approov.xcframework folder from the previous command:
 
-![Add Files to ApproovShapes](readme-images/add-files-to-approovshapes.png)
+ Install the dependencies by executing:
 
-Make sure the `Copy items if needed` option and the target `ApproovShapes` are selected. Once the Approov framework appears in the project structure we have to ensure it is signed and embedded in the ApproovShapes binary. To do so, select the target `ApproovShapes` and in the `General` tab scroll to the `Frameworks, Libraries and Embedded Content` section where the `Approov.xcframework` entry must have `Embed & Sign` selected in the `Embed` column:
+```
+$ pod install
+Analyzing dependencies
+Cloning spec repo `approov` from `https://github.com/approov/approov-service-nsurlsession.git`
+Cloning spec repo `approov-1` from `https://github.com/approov/approov-ios-sdk.git`
+Downloading dependencies
+Installing approov-ios-sdk (2.6.1)
+Installing approov-service-nsurlsession (2.6.1)
+Generating Pods project
+Integrating client project
 
-![Embed & Sign](readme-images/embed-and-sign.png)
+[!] Please close any current Xcode sessions and use `ApproovShapes.xcworkspace` for this project from now on.
+Pod installation complete! There are 2 dependencies from the Podfile and 2 total pods installed.
+```
 
-The Approov SDK is now included as a dependency in your project.
-
-## ADD THE APPROOV FRAMEWORK CODE
-
-The `shapes-app` folder's subfolder `framework` contains an `ApproovInterceptor.swift` file. This provides a wrapper around the Approov SDK itself to make it easier to use with Alamofire's `RequestInterceptor` protocol. In Xcode select `File` and then `Add Files to "ApproovShapes"...` and select the `ApproovInterceptor.swift` file.
-Your project structure should now look like this:
-
-![Final Project View](readme-images/final-project-view.png)
+The Approov SDK is now included as a dependency in your project. Please observe `pod install` command output notice regarding the `ApproovShapes.xcworkspace` as it is the correct way to modify the project from this point on.
 
 ## ENSURE THE SHAPES API IS ADDED
 
@@ -181,72 +192,12 @@ This quick start guide has taken you through the steps of adding Approov to the 
 ### API Domains
 Remember you need to [add](https://approov.io/docs/latest/approov-usage-documentation/#adding-api-domains) all of the API domains that you wish to send Approov tokens for. You can still use the Approov `swift` client for other domains, but no `Approov-Token` will be sent. 
 
-### Preferences
-An Approov app automatically downloads any new configurations of APIs and their pins that are available. These are stored in the [`UserDefaults`](https://developer.apple.com/documentation/foundation/userdefaults) for the app in a preference key `approov-dynamic`. You can store the preferences differently by modifying or overriding the methods `storeDynamicConfig` and `readDynamicApproovConfig` in `ApproovInterceptor.swift`.
 
 ### Changing Your API Backend
 The Shapes example app uses the API endpoint `https://shapes.approov.io/v2/shapes` hosted on Approov's servers. If you want to integrate Approov into your own app you will need to [integrate](https://approov.io/docs/latest/approov-usage-documentation/#backend-integration) an Approov token check. Since the Approov token is simply a standard [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token) this is usually straightforward. [Backend integration](https://approov.io/docs/latest/approov-integration-examples/backend-api/) examples provide a detailed walk-through for particular languages. Note that the default header name of `Approov-Token` can be modified by changing the variable `approovTokenPrefix`, i.e. in integrations that need to be prefixed with `Bearer`, like the `Authorization` header. It is also possible to change the `Approov-Token` header completely by overriding the contents of `kApproovTokenHeader` variable.
 
-### Token Prefetching
-If you wish to reduce the latency associated with fetching the first Approov token, then constructing an `ApproovSession` object should be done setting `prefetchToken` parameter as `true`. This initiates the process of fetching an Approov token as a background task, so that a cached token is available immediately when subsequently needed, or at least the fetch time is reduced. Note that if this feature is being used with [Token Binding](https://approov.io/docs/latest/approov-usage-documentation/#token-binding) then the binding must be set prior to the prefetch, as changes to the binding invalidate any cached Approov token.
 
-### Token Binding
-The Approov SDK allows any string value to be bound to a particular token by computing its SHA256 hash and placing its base64 encoded value inside the `pay` claim of the JWT token. The property `ApproovInterceptor.bindHeader` takes the name of the header holding the value to be bound. This only needs to be called once but the header needs to be present on all API requests using Approov. It is also crucial to set the `ApproovInterceptor.bindHeader` property before any token fetch occurs, like token prefetching being enabled in the `ApproovSession` constructor, since setting the value to be bound invalidates any (pre)fetched token.
 
-### Network Retry Options
-The `ApproovInterceptor` class implements Alamofire's Interceptor protocol which includes an option to invoke a retry attempt in case the original request failed. We do not implement the retry option in `ApproovInterceptor`, but if you require implementing one, you should mimic the contents of the `adapt()` function and perhaps add some logic regarding retry attempts. See an example [here](https://github.com/Alamofire/Alamofire/blob/master/Documentation/AdvancedUsage.md#adapting-and-retrying-requests-with-requestinterceptor).
-
-### Network Delegate
-Unfortunately we do not support network delegates in Alamofire. If you wish to use a network delegate and do not mind using apple's URLSession interface, we can offer an `ApproovURLSession` integration that does support network delegates.
-
-### ApproovTrustManager
-The `ApproovSession` object handles internally the creation of a default `AproovTrustManager`, if one is not provided during initialization. The `AproovTrustManager` then sets the mapping between hosts and evaluators internally. If you wish to use different evaluators for hosts not protected by Approov, you can initialize the `ApproovTrustManager` like so:
-
-```swift
-        let evaluators: [String: ServerTrustEvaluating] = [
-            "some.other.host.com": RevocationTrustEvaluator(),
-            "another.host": PinnedCertificatesTrustEvaluator()
-        ]
-
-        let manager = ApproovTrustManager(evaluators: evaluators)
-        session = ApproovSession(serverTrustManager: manager)
-```
-
-Please note that you do not have to specify the hosts that need to be protected by Approov, they are automatically set for you once a configuration has been fetched from the Approov servers. You can manage (adding and removing) Approov protected domains using the approov [admin tools](https://approov.io/docs/latest/approov-cli-tool-reference/).
-By default, the `ApproovTrustManager` verifies all the hosts protected by Approov and any optional hosts provided a mapping to an evaluator has been provided as in the above code snippet. This means that any request to an additional host not known to the Approov SDK nor the `ApproovTrustManager`, lets say `https://approov.io`, will not be evaluated by Alamofire and it will not be protected by Approov. As long as the certificate presented by that host is valid, the connection will most likely go through. If you wish to change this behaviour, you may modify how the `ApproovTrustManager` is initialized in the above code:
-
-```swift
-        let evaluators: [String: ServerTrustEvaluating] = [
-            "some.other.host.com": RevocationTrustEvaluator(),
-            "another.host": PinnedCertificatesTrustEvaluator()
-        ]
-
-        let manager = ApproovTrustManager(allHostsMustBeEvaluated: true, evaluators: evaluators)
-        session = ApproovSession(serverTrustManager: manager)
-```
-
-The `allHostsMustBeEvaluated: true` parameter will evaluate `some.other.host.com` and `another.host` according to the evaluators specified above. The Approov SDK will verify the public key pinning of all the hosts specified using the [admin tools](https://approov.io/docs/latest/approov-cli-tool-reference/) but any connections to additional hosts will be rejected.
-
-### Redirection
-If any of the hosts you are protecting with Approov redirects requests to a different host, depending on the `allHostsMustBeEvaluated` option used and described above, you might need to protect both hosts with Approov and/or an evaluator as in the code example above, otherwise the original request might get evaluated and after a redirect is triggered, the target host connection is rejected.
-
-### Alamofire Request
-If your code makes use of the default Alamofire Session, like so:
-
-```swift
-    AF.request("https://httpbin.org/get").response { response in
-        debugPrint(response)
-    }
-```
-
-all you will need to do to use Approov is to replace the default Session object with the ApproovSession:
-
-```swift
-    let approovSession = ApproovSession()
-    approovSession!.request("https://httpbin.org/get").responseData{ response in
-            debugPrint(response)
-    }
-```
 
 ## NEXT STEPS
 
