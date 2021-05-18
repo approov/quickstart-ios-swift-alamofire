@@ -64,11 +64,19 @@ This contacts `https://shapes.approov.io/v2/shapes` to get the name of a random 
 
 Get the latest Approov SDK by using `swift package manager`. The repository located at `https://github.com/approov/approov-service-alamofire.git` includes as a dependency the closed source Approov SDK alonside the `Alamofire SDK` and includes branches pointing to the relevant Approov SDK release versions as well as bitcode versions. The approov-service-alamofire is actually an open source wrapper layer that allows you to easily use Approov with Alamofire. Install the dependency by selecting the `ApproovShapes` project in Xcode and then selecting `File`, `Swift Packages`, `Add Package Dependency`:
 
+![Add Package Repository](readme-images/add-package-repository.png)
 
+You will then have to select the relevan Approov SDK version you wish to use. To do so, select the `branch` option and enter the relevant SDK version, in this case `2.7.0`:
 
-The Approov SDK is now included as a dependency in your project. Please observe `pod install` command output notice regarding the `ApproovShapes.xcworkspace` as it is the correct way to modify the project from this point on.
+![Set SDK Version](readme-images/branch-select.png)
 
-This guide assumes you are NOT using bitcode. The Approov SDK is also available with bitcode support. If you wish to use it read the relevant section in the approov service [documentation](https://github.com/approov/approov-service-alamofire) since you will need to modify the `Podfile` to use the bitcode enabled version of the SDK. Remember to also use `-bitcode` when using the `approov` admin tools to register your application with the Approov service.
+Once you click `Next` the last screen will confirm the package product and target selection:
+
+![Target Selection](readme-images/target-selection.png)
+
+The Approov SDK is now included as a dependency in your project. 
+
+This guide assumes you are NOT using bitcode. The Approov SDK is also available with bitcode support. If you wish to use it read the relevant section in the approov service [documentation](https://github.com/approov/approov-service-alamofire) since you will need to change the branch from which to obtain the code, in this case you should use branch `2.7.0-bitcode` , to use the bitcode enabled version of the SDK. Remember to also use `-bitcode` when using the `approov` admin tools to register your application with the Approov service.
 
 ## ENSURE THE SHAPES API IS ADDED
 
