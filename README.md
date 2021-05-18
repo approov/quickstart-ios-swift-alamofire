@@ -16,21 +16,9 @@ This quickstart is written specifically for native iOS apps that are written in 
 * A solid understanding of how to integrate Approov into your own Swift app that uses Alamofire
 * Some pointers to other Approov features
 
-## OBTAINING ALAMOFIRE FRAMEWORK
+## ALAMOFIRE FRAMEWORK
 
-We include [Alamofire](https://github.com/Alamofire/Alamofire) as a cocoapod package dependency and in order to satisfy the dependency,
-using the command line, locate the `shapes-app` folder and set it as a working directory. Execute the command `pod install`:
-```
-$ pod install
-Analyzing dependencies
-Downloading dependencies
-Installing Alamofire (5.1.0)
-Generating Pods project
-Integrating client project
-Pod installation complete! There is 1 dependency from the Podfile and 1 total pod installed.
-```
-This downloads the Alamofire framework and updates the directory structure. Please, do not use the project file `ApproovShapes.xcodeproj`. Instead always
-use the workspace file `ApproovShapes.xcworkspace`.
+We include [Alamofire](https://github.com/Alamofire/Alamofire) as a `swift package manager` dependency in our project
 
 ## RUNNING THE SHAPES APP WITHOUT APPROOV
 
@@ -104,7 +92,7 @@ We need to add the text file to our project and ensure it gets copied to the roo
 Before using Approov you need to import the Alamofire Service. In the `ViewController.swift` source file import the service module:
 
 ```swift
-import approov_service_alamofire
+import ApproovInterceptor
 ```
 
 Find the function definition for `initializeSession()` in the `ViewController.swift` source file:
@@ -140,7 +128,7 @@ Copy the ApproovShapes.ipa file to a convenient working directory. Register the 
 ```
 $ approov registration -add ApproovShapes.ipa
 registering app ApproovShapes
-lhB30o4UMuzjDsdNicQ6QiM6cEcC4Y5k/SF72fID/Es=com.yourcompany-name.ApproovShapes-1.0[1]-6285  SDK:iOS-universal(2.6.0)
+lhB30o4UMuzjDsdNicQ6QiM6cEcC4Y5k/SF72fID/Es=com.yourcompany-name.ApproovShapes-1.0[1]-6811  SDK:iOS-universal(2.7.0)
 registration successful
 ```
 
