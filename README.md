@@ -8,7 +8,6 @@ This quickstart is written specifically for native iOS apps that are written in 
 * [Xcode](https://developer.apple.com/xcode/) version 12 installed (version 12.3 is used in this guide)
 * The contents of the folder containing this README
 * An Apple mobile device with iOS 10 or higher
-* [Cocoapods](https://cocoapods.org) package manager installed (version 1.10.1 is used in this guide)
 
 ## WHAT YOU WILL LEARN
 * How to integrate Approov into a real app in a step by step fashion
