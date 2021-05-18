@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1722AF942458D31200577A9E /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 1722AF932458D31200577A9E /* Podfile */; };
 		846743E721EFD27A00EEE48A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846743E621EFD27A00EEE48A /* Assets.xcassets */; };
 		8475651821EFCC4A0094ED94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8475651721EFCC4A0094ED94 /* AppDelegate.swift */; };
 		8475651A21EFCC4A0094ED94 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8475651921EFCC4A0094ED94 /* ViewController.swift */; };
@@ -29,7 +28,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1722AF932458D31200577A9E /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		846743E621EFD27A00EEE48A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8475651421EFCC4A0094ED94 /* ApproovShapes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ApproovShapes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8475651721EFCC4A0094ED94 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -53,7 +51,6 @@
 		8475650B21EFCC4A0094ED94 = {
 			isa = PBXGroup;
 			children = (
-				1722AF932458D31200577A9E /* Podfile */,
 				8475651621EFCC4A0094ED94 /* ApproovShapes */,
 				8475651521EFCC4A0094ED94 /* Products */,
 			);
@@ -142,7 +139,6 @@
 			files = (
 				8475652221EFCC4B0094ED94 /* LaunchScreen.storyboard in Resources */,
 				846743E721EFD27A00EEE48A /* Assets.xcassets in Resources */,
-				1722AF942458D31200577A9E /* Podfile in Resources */,
 				8475651D21EFCC4A0094ED94 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

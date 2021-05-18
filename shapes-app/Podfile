@@ -1,8 +1,0 @@
-target 'ApproovShapes' do
-  use_frameworks!
-  platform :ios, '10.0'
-  # Uncomment the lines bellow to use Approov
-  #pod 'approov-service-alamofire', '2.6.1', :source => "https://github.com/approov/approov-service-alamofire.git"
-  #pod 'approov-ios-sdk', '2.6.1', :source => "https://github.com/approov/approov-ios-sdk.git"
-  pod 'Alamofire', '~> 5.1'
-end

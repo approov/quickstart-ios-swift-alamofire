@@ -62,36 +62,9 @@ This contacts `https://shapes.approov.io/v2/shapes` to get the name of a random 
 
 ## ADD THE APPROOV SDK AND THE APPROOV SERVICE ALAMOFIRE
 
-Get the latest Approov SDK by using `CocoaPods`. The `Podfile` configuration file is located in the `shapes-app/ApproovShapes` directory and should contain a reference to the latest version of the Approov SDK available for iOS and the approov service that enables the ApproovSDK use. The approov-service-alamofire is actually an open source wrapper layer that allows you to easily use Approov with `Alamofire`. This has a further dependency to the closed source Approov SDK itself. 
-The `Approov SDK` and `Approov Service Alamofire` packages are commented out in the `Podfile` so we will need to edit and uncomment the lines that contain the `approov` string.
+Get the latest Approov SDK by using `swift package manager`. The repository located at `https://github.com/approov/approov-service-alamofire.git` includes as a dependency the closed source Approov SDK alonside the `Alamofire SDK` and includes branches pointing to the relevant Approov SDK release versions as well as bitcode versions. The approov-service-alamofire is actually an open source wrapper layer that allows you to easily use Approov with Alamofire. Install the dependency by selecting the `ApproovShapes` project in Xcode and then selecting `File`, `Swift Packages`, `Add Package Dependency`:
 
-```
-target 'ApproovShapes' do
-  use_frameworks!
-  platform :ios, '10.0'
-  # Uncomment the lines bellow to use Approov
-  #pod 'approov-service-alamofire', '2.6.1', :source => "https://github.com/approov/approov-service-alamofire.git"
-  #pod 'approov-ios-sdk', '2.6.1', :source => "https://github.com/approov/approov-ios-sdk.git"
-  pod 'Alamofire', '~> 5.1'
-end
-```
 
- Install the dependencies by executing:
-
-```
-$ pod install
-Analyzing dependencies
-Cloning spec repo `approov` from `https://github.com/approov/approov-service-nsurlsession.git`
-Cloning spec repo `approov-1` from `https://github.com/approov/approov-ios-sdk.git`
-Downloading dependencies
-Installing approov-ios-sdk (2.6.1)
-Installing approov-service-nsurlsession (2.6.1)
-Generating Pods project
-Integrating client project
-
-[!] Please close any current Xcode sessions and use `ApproovShapes.xcworkspace` for this project from now on.
-Pod installation complete! There are 2 dependencies from the Podfile and 2 total pods installed.
-```
 
 The Approov SDK is now included as a dependency in your project. Please observe `pod install` command output notice regarding the `ApproovShapes.xcworkspace` as it is the correct way to modify the project from this point on.
 
