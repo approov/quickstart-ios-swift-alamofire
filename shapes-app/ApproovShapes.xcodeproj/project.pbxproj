@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		170C9B592653D55900A162CC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 170C9B582653D55900A162CC /* Alamofire */; };
-		170C9B642653E5CF00A162CC /* ApproovInterceptor in Frameworks */ = {isa = PBXBuildFile; productRef = 170C9B632653E5CF00A162CC /* ApproovInterceptor */; };
 		846743E721EFD27A00EEE48A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846743E621EFD27A00EEE48A /* Assets.xcassets */; };
 		8475651821EFCC4A0094ED94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8475651721EFCC4A0094ED94 /* AppDelegate.swift */; };
 		8475651A21EFCC4A0094ED94 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8475651921EFCC4A0094ED94 /* ViewController.swift */; };
@@ -44,7 +43,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				170C9B642653E5CF00A162CC /* ApproovInterceptor in Frameworks */,
 				170C9B592653D55900A162CC /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -100,7 +98,6 @@
 			name = ApproovShapes;
 			packageProductDependencies = (
 				170C9B582653D55900A162CC /* Alamofire */,
-				170C9B632653E5CF00A162CC /* ApproovInterceptor */,
 			);
 			productName = "shapes-client";
 			productReference = 8475651421EFCC4A0094ED94 /* ApproovShapes.app */;
@@ -133,7 +130,6 @@
 			mainGroup = 8475650B21EFCC4A0094ED94;
 			packageReferences = (
 				170C9B572653D55900A162CC /* XCRemoteSwiftPackageReference "Alamofire" */,
-				170C9B622653E5CF00A162CC /* XCRemoteSwiftPackageReference "approov-service-alamofire" */,
 			);
 			productRefGroup = 8475651521EFCC4A0094ED94 /* Products */;
 			projectDirPath = "";
@@ -402,14 +398,6 @@
 				minimumVersion = 5.4.3;
 			};
 		};
-		170C9B622653E5CF00A162CC /* XCRemoteSwiftPackageReference "approov-service-alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/approov/approov-service-alamofire.git";
-			requirement = {
-				branch = "test/Alamofire-version";
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -417,11 +405,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 170C9B572653D55900A162CC /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
-		};
-		170C9B632653E5CF00A162CC /* ApproovInterceptor */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 170C9B622653E5CF00A162CC /* XCRemoteSwiftPackageReference "approov-service-alamofire" */;
-			productName = ApproovInterceptor;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
