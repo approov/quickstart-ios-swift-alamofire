@@ -2,6 +2,10 @@
 
 This quickstart is written specifically for native iOS apps that are written in Swift and using Alamofire for making the API calls that you wish to protect with Approov. If this is not your situation then check if there is a more relevant quickstart guide available.
 
+This quickstart provides a step-by-step example of integrating Approov into an app using a simple `Shapes` example that shows a geometric shape based on a request to an API backend that can be protected with Approov.
+
+It is also possible to use Approov in `Discovery` mode to perform an initial assessment of your app user base and whether there are requests being made to your backend API that are not coming from your mobile apps. This mode allows a simpler initial integration. If you wish to implement this first then follow the steps [here](https://github.com/approov/approov-service-okhttp) up to and including the `Discovery Mode` section
+
 ## WHAT YOU WILL NEED
 * Access to a trial or paid Approov account
 * The `approov` command line tool [installed](https://approov.io/docs/latest/approov-installation/) with access to your account
@@ -77,14 +81,14 @@ Tokens for this domain will be automatically signed with the specific secret for
 
 The Approov SDK needs a configuration string to identify the account associated with the app. Obtain it using:
 ```
-$ approov sdk -getConfig approov-initial.config
+$ approov sdk -getConfigString
 ```
-We need to add the text file to our project and ensure it gets copied to the root directory of our app upon installation. In Xcode select `File`, then `Add Files to "ApproovShapes"...` and select the `approov-initial.config` file. Make sure the `Copy items if needed` option and the target `ApproovShapes` are selected. Your final project structure should look like this:
 
-![Initial Config String](readme-images/initial-config.png)
+This will output a configuration string, something like `#123456#K/XPlLtfcwnWkzv99Wj5VmAxo4CrU267J1KlQyoz8Qo=`, that will identify your Approov account. Use this configuration string as an additional parameter when initializing the `ApproovSession`, like so:
 
- Verify that the `Copy Bundle Resources` phase of the `Build Phases` tab includes the `approov-initial.config` in its list, otherwise it will not get copied during installation.
- Providing the configuration file as part of the application is not strictly necessary, the configuration string can be read from a network resource for example, and then provided to the ApproovInterceptor constructor during initialization.
+```swift
+let session = ApproovSession(configString: "#123456#K/XPlLtfcwnWkzv99Wj5VmAxo4CrU267J1KlQyoz8Qo=")
+```
 
 ## MODIFY THE APP TO USE APPROOV
 
@@ -103,11 +107,11 @@ func initializeSession(){
     }
 }
 ```
-Replace the above code with the one using Approov:
+Replace the above code with the one using Approov and remember to use the actual configuration string for your account:
 ```swift
 func initializeSession(){
     if (session == nil) {
-        session = ApproovSession()
+        session = ApproovSession(configString: "#123456#K/XPlLtfcwnWkzv99Wj5VmAxo4CrU267J1KlQyoz8Qo=")
     }
 }
 ```
