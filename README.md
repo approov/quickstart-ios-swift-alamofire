@@ -9,7 +9,7 @@ To follow this guide you should have received an onboarding email for a trial or
 ## ADDING APPROOVSERVICE DEPENDENCY
 The Approov integration is available via the [`Swift Package Manager`](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app). This allows inclusion into the project by simply specifying a dependency in the `Add Package Dependency` Xcode option:
 
-![Add Package Dependency](readme-images/AddPackage.png)
+![Add Package Dependency](readme-images/add-package-repository.png)
 
 This package is actually an open source wrapper layer that allows you to easily use Approov with `Alamofire`. This has a further dependency to the closed source [Approov SDK](https://github.com/approov/approov-ios-sdk).
 
