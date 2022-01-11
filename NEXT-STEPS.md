@@ -29,7 +29,7 @@ approov registration -add app.ipa
 [Managing Registrations](https://approov.io/docs/latest/approov-usage-documentation/#managing-registrations) provides more details for app registrations.
 
 # BITCODE SUPPORT
-The Approov SDK is also available with bitcode support. If you wish to use it then you should modify the branch for the Approov service layer dependency to `2.7.0-bitcode`. Please then also use the `-bitcode` option when registering your application with the Approov service.
+The Approov SDK is also available with bitcode support. If you wish to use it then you should modify the branch for the Approov service layer dependency to `<SDK Version>-bitcode` i.e. `2.7.0-bitcode`. Please then also use the `-bitcode` option when registering your application with the Approov service.
 
 ## BACKEND INTEGRATION
 In order to fully implement Approov you must verify the Approov token in your backend API. Various [Backend API Quickstarts](https://approov.io/docs/latest/approov-integration-examples/backend-api/) are availble to suit your particular situation.
