@@ -17,6 +17,7 @@
 import UIKit
 import Alamofire
 
+
 class ViewController: UIViewController {
     
     @IBOutlet weak var statusImageView: UIImageView!
@@ -25,7 +26,10 @@ class ViewController: UIViewController {
     var session:Session?
     let httpPrefix = "https://"
     let urlNameCheck = "shapes.approov.io/v1/hello"
-    let urlNameVerify = "shapes.approov.io/v2/shapes"
+    static let currentShapesEndpoint = "v2"    // Current shapes endpoint
+    let urlNameVerify = "shapes.approov.io/" + currentShapesEndpoint + "/shapes"
+    //*** CHANGE THE LINE BELOW FOR APPROOV USING SECRET PROTECTION TO `shapes_api_key_placeholder`
+    let apiSecretKey = "yXClypapWNHIifHUWmBIyPFAm"
     
     
     override func viewDidLoad() {
@@ -44,7 +48,7 @@ class ViewController: UIViewController {
             self.statusImageView.image = UIImage(named: "approov")
             self.statusTextView.text = "Checking connectivity..."
         }
-        // Create the session
+        // Create the session if not creeated
         initializeSession()
         let task = session!.request(httpPrefix + urlNameCheck).responseData{ response in
             let message: String
@@ -97,7 +101,9 @@ class ViewController: UIViewController {
         }
         // Create the session
         initializeSession()
-        let task = session!.request(httpPrefix + urlNameVerify).responseData { response in
+        var request = URLRequest(url: URL(string: httpPrefix + urlNameCheck)!)
+        request.setValue(apiSecretKey, forHTTPHeaderField: "Api-Key")
+        let task = session!.request(request).responseData { response in
             var message: String
             let image: UIImage?
             
@@ -163,7 +169,14 @@ class ViewController: UIViewController {
     // Create the session only if it does not exist yet
     func initializeSession(){
         if (session == nil) {
-            session = Session()
+            // *** COMMENT OUT IF USING APPROOV APPROOV
+            session = ApproovSession()
+            // *** UNCOMMENT TO USE APPROOV
+            //session = ApproovSession()
+            //try! ApproovService.initialize(config: "<enter-you-config-string-here>")
+            
+            // *** UNCOMMENT THE LINE BELOW FOR APPROOV USING SECRET PROTECTION ***
+            //ApproovService.addSubstitutionHeader(header: "Api-Key", prefix: nil)
         }
     }
 }
