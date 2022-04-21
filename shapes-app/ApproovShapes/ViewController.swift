@@ -101,7 +101,7 @@ class ViewController: UIViewController {
         }
         // Create the session
         initializeSession()
-        var request = URLRequest(url: URL(string: httpPrefix + urlNameCheck)!)
+        var request = URLRequest(url: URL(string: httpPrefix + urlNameVerify)!)
         request.setValue(apiSecretKey, forHTTPHeaderField: "Api-Key")
         let task = session!.request(request).responseData { response in
             var message: String
