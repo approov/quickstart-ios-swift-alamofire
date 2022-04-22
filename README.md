@@ -42,8 +42,6 @@ Initially you won't have set which API domains to protect, so the interceptor wi
  
 Your Approov onboarding email should contain a link allowing you to access [Live Metrics Graphs](https://approov.io/docs/latest/approov-usage-documentation/#metrics-graphs). After you've run your app with Approov integration you should be able to see the results in the live metrics within a minute or so. At this stage you could even release your app to get details of your app population and the attributes of the devices they are running upon.
  
-However, to actually protect your APIs there are some further steps you can learn about in [Next Steps](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/NEXT-STEPS.md).
- 
 ## NEXT STEPS
 To actually protect your APIs there are some further steps. Approov provides two different options for protecting APIs:
  
@@ -53,3 +51,16 @@ To actually protect your APIs there are some further steps. Approov provides two
  
 Note that it is possible to use both approaches side-by-side in the same app, in case your app uses a mixture of 1st and 3rd party APIs.
 
+## BITCODE SUPPORT
+
+[Bitcode](https://approov.io/docs/latest/approov-usage-documentation/#bitcode-mode-management) is supported by Approov but requires command line option to be specified when registering apps.
+
+```
+approov registration -add YourApp.ipa -bitcode
+```
+
+It is also required if a bitcode enabled SDK needs to be used or a decision has been made to run an SDK in bitcode mode:
+
+```
+approov adk -getLibrary Approov.xcframework.zip -bitcode
+```
