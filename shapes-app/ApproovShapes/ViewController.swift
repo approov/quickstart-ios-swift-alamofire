@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     var session:Session?
     let httpPrefix = "https://"
     let urlNameCheck = "shapes.approov.io/v1/hello"
-    static let currentShapesEndpoint = "v2"    // Current shapes endpoint
+    static let currentShapesEndpoint = "v1"    // Current shapes endpoint
     let urlNameVerify = "shapes.approov.io/" + currentShapesEndpoint + "/shapes"
     //*** CHANGE THE LINE BELOW FOR APPROOV USING SECRET PROTECTION TO `shapes_api_key_placeholder`
     let apiSecretKey = "yXClypapWNHIifHUWmBIyPFAm"

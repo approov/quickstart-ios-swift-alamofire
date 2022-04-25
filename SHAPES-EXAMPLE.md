@@ -39,7 +39,7 @@ This checks the connectivity by connecting to the endpoint `https://shapes.appro
    <img src="readme-images/shapes-bad.png" width="256" title="Shapes Bad">
 </p>
  
-This contacts `https://shapes.approov.io/v2/shapes` to get the name of a random shape. It gets the status code 400 (`Bad Request`) because this endpoint is protected with an Approov token. Next, you will add Approov into the app so that it can generate valid Approov tokens and get shapes.
+This contacts `https://shapes.approov.io/v1/shapes` to get the name of a random shape. It gets a shape and a status code 200 since it does not authenticate the request. Next, you will add Approov into the app so that it can generate valid Approov tokens and get shapes from an endpoint that requires authentication.
  
 ## ADD THE APPROOV SDK AND THE APPROOV SERVICE ALAMOFIRE
  
@@ -103,15 +103,6 @@ Copy the ApproovShapes.ipa file to a convenient working directory. Register the 
  
 ```
 $ approov registration -add ApproovShapes.ipa
-```
- 
-Please remember if you are using bitcode version of the Approov SDk, you need to make sure the registration command includes the `--bitcode` option flag:
-
-```
-[Bitcode](https://approov.io/docs/latest/approov-usage-documentation/#bitcode-mode-management) is supported by Approov but requires command line option to be specified when registering apps.
-
-```
-$ approov registration -add ApproovShapes.ipa -bitcode
 ```
 
 

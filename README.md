@@ -64,3 +64,4 @@ It is also required if a bitcode enabled SDK needs to be used or a decision has 
 ```
 approov adk -getLibrary Approov.xcframework.zip -bitcode
 ```
+
