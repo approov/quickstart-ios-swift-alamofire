@@ -170,7 +170,7 @@ class ViewController: UIViewController {
     func initializeSession(){
         if (session == nil) {
             // *** COMMENT OUT IF USING APPROOV APPROOV
-            session = ApproovSession()
+            session = Session()
             // *** UNCOMMENT TO USE APPROOV
             //session = ApproovSession()
             //try! ApproovService.initialize(config: "<enter-you-config-string-here>")
