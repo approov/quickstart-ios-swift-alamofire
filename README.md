@@ -59,9 +59,6 @@ Note that it is possible to use both approaches side-by-side in the same app, in
 approov registration -add YourApp.ipa -bitcode
 ```
 
-It is also required if a bitcode enabled SDK needs to be used or a decision has been made to run an SDK in bitcode mode:
+In order to use a bitcode enabled Approov service, you can still use the swift package repository at `https://github.com/approov/approov-service-alamofire.git` but append the `-bitcode` suffix to the required SDK version, i.e you could use `3.0.0-bitcode` as a version in the Swift PM window.
 
-```
-approov adk -getLibrary Approov.xcframework.zip -bitcode
-```
 
