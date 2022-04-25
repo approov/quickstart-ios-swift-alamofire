@@ -62,3 +62,6 @@ approov registration -add YourApp.ipa -bitcode
 In order to use a bitcode enabled Approov service, you can still use the swift package repository at `https://github.com/approov/approov-service-alamofire.git` but append the `-bitcode` suffix to the required SDK version, i.e you could use `3.0.0-bitcode` as a version in the Swift PM window.
 
 
+## ALAMOFIRE FEATURES
+
+Additional optional features regarding `Alamofire` are desribed [here](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/ALAMOFIRE-OPTIONS.md)
