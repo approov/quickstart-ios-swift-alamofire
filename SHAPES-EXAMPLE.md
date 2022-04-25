@@ -90,6 +90,8 @@ The `ApproovSession` class adds the `Approov-Token` header and also applies pinn
 ```swift
 static let currentShapesEndpoint = "v3"    // Current shapes endpoint
 ```
+
+If you build and run the app now, you should get a `400` response from the sahpes endpoint, since it expects an authenticated application in order to provide a valid shape. In order authenticate the application, you should register it with the Approov service.
  
 ## REGISTER YOUR APP WITH APPROOV
  
