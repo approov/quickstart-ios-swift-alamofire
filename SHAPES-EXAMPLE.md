@@ -59,7 +59,7 @@ The Approov SDK is now included as a dependency in your project.
  
 ## ENSURE THE SHAPES API IS ADDED
  
-In order for Approov tokens to be generated for `https://shapes.approov.io/v2/shapes` it is necessary to inform Approov about it:
+In order for Approov tokens to be generated for the shapes endpoint it is necessary to inform Approov about it:
 ```
 $ approov api -add shapes.approov.io
 ```
@@ -85,10 +85,10 @@ func initializeSession(){
 }
 ```
  
-The `ApproovSession` class adds the `Approov-Token` header and also applies pinning for the connections to ensure that no Man-in-the-Middle can eavesdrop on any communication being made. Lastly, please ensure you point the shapes request to the endpoint that checks the validity of the `Approov-Token` header, `https://shapes.approov.io/v2/shapes/`:
+The `ApproovSession` class adds the `Approov-Token` header and also applies pinning for the connections to ensure that no Man-in-the-Middle can eavesdrop on any communication being made. Lastly, please ensure you point the shapes request to the endpoint that checks the validity of the `Approov-Token` header, `https://shapes.approov.io/v3/shapes/`:
 
 ```swift
-static let currentShapesEndpoint = "v2"    // Current shapes endpoint
+static let currentShapesEndpoint = "v3"    // Current shapes endpoint
 ```
  
 ## REGISTER YOUR APP WITH APPROOV
@@ -105,6 +105,16 @@ Copy the ApproovShapes.ipa file to a convenient working directory. Register the 
 $ approov registration -add ApproovShapes.ipa
 ```
  
+Please remember if you are using bitcode version of the Approov SDk, you need to make sure the registration command includes the `--bitcode` option flag:
+
+```
+[Bitcode](https://approov.io/docs/latest/approov-usage-documentation/#bitcode-mode-management) is supported by Approov but requires command line option to be specified when registering apps.
+
+```
+$ approov registration -add ApproovShapes.ipa -bitcode
+```
+
+
 ## RUNNING THE SHAPES APP WITH APPROOV
  
 Install the `ApproovShapes.ipa` that you just registered on the device. You will need to remove the old app from the device first. Please note that you need to run the application with Approov SDK on a real device and not a simulator. If you are using an emulator, you will need to learn how to ensure your device [always passes](https://approov.io/docs/latest/approov-usage-documentation/#adding-a-device-security-policy) since the simulators are not real devices and you will not be able to successfully authenticate the app.
@@ -135,7 +145,7 @@ If you still don't get a valid shape then there are some things you can try. Rem
  
 ## SHAPES APP WITH SECRET PROTECTION
  
-This section provides an illustration of an alternative option for Approov protection if you are not able to modify the backend to add an Approov Token check. We are still going to be using `https://shapes.approov.io/v1/shapes/` that simply checks for an API key, so please change back the code so it points to `https://shapes.approov.io/v1/shapes/` instead of the `v2` endpoint:
+This section provides an illustration of an alternative option for Approov protection if you are not able to modify the backend to add an Approov Token check. We are still going to be using `https://shapes.approov.io/v1/shapes/` that simply checks for an API key, so please change back the code so it points to `https://shapes.approov.io/v1/shapes/` instead of the `v3` endpoint:
  
 ```swift
 static let currentShapesEndpoint = "v1"    // Current shapes endpoint
