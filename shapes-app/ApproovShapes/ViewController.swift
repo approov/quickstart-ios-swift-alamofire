@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     let urlNameCheck = "shapes.approov.io/v1/hello"
     static let currentShapesEndpoint = "v1"    // Current shapes endpoint
     let urlNameVerify = "shapes.approov.io/" + currentShapesEndpoint + "/shapes"
-    //*** CHANGE THE LINE BELOW FOR APPROOV USING SECRET PROTECTION TO `shapes_api_key_placeholder`
+    //*** CHANGE THE LINE BELOW FOR APPROOV USING SECRETS PROTECTION TO `shapes_api_key_placeholder`
     let apiSecretKey = "yXClypapWNHIifHUWmBIyPFAm"
     
     
@@ -175,7 +175,7 @@ class ViewController: UIViewController {
             //session = ApproovSession()
             //try! ApproovService.initialize(config: "<enter-you-config-string-here>")
             
-            // *** UNCOMMENT THE LINE BELOW FOR APPROOV USING SECRET PROTECTION ***
+            // *** UNCOMMENT THE LINE BELOW FOR APPROOV USING SECRETS PROTECTION ***
             //ApproovService.addSubstitutionHeader(header: "Api-Key", prefix: nil)
         }
     }

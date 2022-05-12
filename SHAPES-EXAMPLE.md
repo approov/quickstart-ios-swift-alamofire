@@ -136,7 +136,7 @@ If you still don't get a valid shape then there are some things you can try. Rem
 * You can use a debugger or emulator and get valid Approov tokens on a specific device by ensuring it [always passes](https://approov.io/docs/latest/approov-usage-documentation/#adding-a-device-security-policy). As a shortcut, when you are first setting up, you can add a [device security policy](https://approov.io/docs/latest/approov-usage-documentation/#adding-a-device-security-policy) using the `latest` shortcut as discussed so that the `device ID` doesn't need to be extracted from the logs or an Approov token.
 * Inspect any exceptions for additional information
  
-## SHAPES APP WITH SECRET PROTECTION
+## SHAPES APP WITH SECRETS PROTECTION
  
 This section provides an illustration of an alternative option for Approov protection if you are not able to modify the backend to add an Approov Token check. We are still going to be using `https://shapes.approov.io/v1/shapes/` that simply checks for an API key, so please change back the code so it points to `https://shapes.approov.io/v1/shapes/` instead of the `v3` endpoint:
  
@@ -147,7 +147,7 @@ static let currentShapesEndpoint = "v1"    // Current shapes endpoint
 The `apiSecretKey` variable also needs to be changed as follows, removing the actual API key out of the code:
  
 ```swift
-//*** CHANGE THE LINE BELOW FOR APPROOV USING SECRET PROTECTION TO `shapes_api_key_placeholder`
+//*** CHANGE THE LINE BELOW FOR APPROOV USING SECRETS PROTECTION TO `shapes_api_key_placeholder`
 let apiSecretKey = "shapes_api_key_placeholder"
 ```
  
@@ -170,7 +170,7 @@ approov secstrings -addKey shapes_api_key_placeholder -predefinedValue yXClypapW
 Next we need to inform Approov that it needs to substitute the placeholder value for the real API key on the `Api-Key` header. Find the line below, in the `initializeSession()` function and uncomment it:
  
 ```swift
-// *** UNCOMMENT THE LINE BELOW FOR APPROOV USING SECRET PROTECTION ***
+// *** UNCOMMENT THE LINE BELOW FOR APPROOV USING SECRETS PROTECTION ***
 ApproovService.addSubstitutionHeader(header: "Api-Key", prefix: nil)
 ```
  
