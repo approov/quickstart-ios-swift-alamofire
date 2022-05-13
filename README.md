@@ -26,8 +26,7 @@ Additionally, the Approov SDK wrapper class, `ApproovService` needs to be initia
 For API domains that are configured to be protected with an Approov token, this adds the `Approov-Token` header and pins the connection. This may also substitute header values when using secrets protection.
 
 Please note on the above code, the `ApproovService` is instantiated and might throw a `configurationError`exception if the configuration string provided as parameter is different than the already used one to initialize previously. If the underlying Appproov SDK can not be initialized because of a permanent issue, an `initializationFailure` is returned which should be considered permanent. Failure to initialise the `ApproovService` should cancel any network requests since lack of initialization is generally considered fatal.
- 
- 
+  
 ## ERROR MESSAGES
 The `ApproovService` provides specific type errors when using some functions to provide additional information about the type of error:
  
@@ -53,16 +52,7 @@ To actually protect your APIs there are some further steps. Approov provides two
 Note that it is possible to use both approaches side-by-side in the same app, in case your app uses a mixture of 1st and 3rd party APIs.
 
 ## BITCODE SUPPORT
-
-[Bitcode](https://approov.io/docs/latest/approov-usage-documentation/#bitcode-mode-management) is supported by Approov but requires command line option to be specified when registering apps.
-
-```
-approov registration -add YourApp.ipa -bitcode
-```
-
 In order to use a bitcode enabled Approov service, you can still use the swift package repository at `https://github.com/approov/approov-service-alamofire.git` but append the `-bitcode` suffix to the required SDK version, i.e you could use `3.0.0-bitcode` as a version in the Swift PM window.
 
-
 ## ALAMOFIRE FEATURES
-
 Additional optional features regarding `Alamofire` are desribed [here](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/ALAMOFIRE-OPTIONS.md)
