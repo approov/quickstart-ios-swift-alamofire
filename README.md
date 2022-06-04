@@ -52,7 +52,11 @@ To actually protect your APIs there are some further steps. Approov provides two
 Note that it is possible to use both approaches side-by-side in the same app, in case your app uses a mixture of 1st and 3rd party APIs.
 
 ## BITCODE SUPPORT
-In order to use a bitcode enabled Approov service, you can still use the swift package repository at `https://github.com/approov/approov-service-alamofire.git` but append the `-bitcode` suffix to the required SDK version, i.e you could use `3.0.0-bitcode` as a version in the Swift PM window.
+In order to use a bitcode enabled Approov service, you can still use the swift package repository at `https://github.com/approov/approov-service-alamofire` but append the `-bitcode` suffix to the required SDK version, i.e you should use `3.0.1-bitcode` as a version in the Swift PM window. Head to the Github repository location at `https://github.com/approov/approov-service-alamofire` and check the tags, selecting the latest version of the package that supports bitcode:
+
+![Approov Service Packages](readme-images/ApproovServicePackages.png)
 
 ## ALAMOFIRE FEATURES
 Additional optional features regarding `Alamofire` are desribed [here](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/ALAMOFIRE-OPTIONS.md)
+
+See [REFERENCE](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/REFERENCE.md) for a complete list of all of the `ApproovService` methods.

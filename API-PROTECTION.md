@@ -22,7 +22,7 @@ approov registration -add YourApp.ipa
 
 > **IMPORTANT:** The registration takes up to 30 seconds to propagate across the Approov Cloud Infrastructure, therefore don't try to run the app again before this time has elapsed. During development of your app you can ensure it [always passes](https://approov.io/docs/latest/approov-usage-documentation/#adding-a-device-security-policy) on your device to not have to register the IPA each time you modify it.
 
-[Managing Registrations](https://approov.io/docs/latest/approov-usage-documentation/#managing-registrations) provides more details for app registrations, especially for releases to the Apple Store.
+[Managing Registrations](https://approov.io/docs/latest/approov-usage-documentation/#managing-registrations) provides more details for app registrations, especially for releases to the Apple App Store.
 
 Bitcode is supported by Approov (if you included the appropriate Swift package) but its use requires a command line option to be specified when registering apps:
 
@@ -37,17 +37,16 @@ See [Exploring Other Approov Features](https://approov.io/docs/latest/approov-us
 The default header name of `Approov-Token` can be changed as follows:
 
 ```swift
-ApproovService.approovTokenHeaderAndPrefix.approovTokenHeader = "Authorization "
-ApproovService.approovTokenHeaderAndPrefix.approovTokenPrefix = "Bearer"
+ApproovService.setApproovHeader(header: "Authorization ", prefix: "Bearer")
 ```
 
-The first assignment changes is the new header name and the second a prefix to be added to the Approov token. This is primarily for integrations where the Approov Token JWT might need to be prefixed with `Bearer` and passed in the `Authorization` header.
+The first parameter changes is the new header name and the second a prefix to be added to the Approov token. This is primarily for integrations where the Approov Token JWT might need to be prefixed with `Bearer` and passed in the `Authorization` header.
 
 ### Token Binding
 If want to use [Token Binding](https://approov.io/docs/latest/approov-usage-documentation/#token-binding) then set the header holding the value to be used for binding as follows:
 
 ```swift
-ApproovService.bindHeader = "Authorization"
+setBindingHeader(header: "Authorization")
 ```
 
 In this case it means that the value of `Authorization` holds the token value to be bound. This only needs to be called once. On subsequent requests the value of the specified header is read and its value set as the token binding value. Note that you should select a header whose value does not typically change from request to request, as each change requires a new Approov token to be fetched.
