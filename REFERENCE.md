@@ -34,11 +34,11 @@ Allows to set the name of the header (`approovTokenHeader`) that the Approov tok
 public static func setApproovHeader(header: String, prefix: String)
 ```
 
-## bindHeader
-Variable that holds the name of a binding header that may be present on requests being made. This is for the [token binding](https://approov.io/docs/latest/approov-usage-documentation/#token-binding) feature. A header should be chosen whose value is unchanging for most requests (such as an Authorization header). If the `bindHeader` is present, then a hash of the header value is included in the issued Approov tokens to bind them to the value. This may then be verified by the backend API integration.
+## setBindingHeader
+Variable that holds the name of a binding header that may be present on requests being made. This is for the [token binding](https://approov.io/docs/latest/approov-usage-documentation/#token-binding) feature. A header should be chosen whose value is unchanging for most requests (such as an Authorization header). If the binding header is present, then a hash of the header value is included in the issued Approov tokens to bind them to the value. This may then be verified by the backend API integration.
 
 ```swift
-public static func setBindingHeader(header:String)
+public static func setBindingHeader(header: String)
 ```
 
 ## addSubstitutionHeader
