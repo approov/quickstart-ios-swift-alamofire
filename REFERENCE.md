@@ -27,7 +27,7 @@ public static func setProceedOnNetworkFailure(proceed: Bool)
 
 Note that this should be used with *CAUTION* because it may allow a connection to be established before any dynamic pins have been received via Approov, thus potentially opening the channel to a MitM.
 
-## setApproovHeader(header: String, prefix: String)
+## setApproovHeader
 Allows to set the name of the header (`approovTokenHeader`) that the Approov token is added on, as well as an optional `prefix` String (such as "`Bearer `"). Set `prefix` parameter to an empty string if it is not required. By default the token is provided on `Approov-Token` with no prefix.
 
 ```swift
@@ -53,6 +53,20 @@ Removes a `header` previously added using `addSubstitutionHeader`.
 
 ```swift
 public static func removeSubstitutionHeader(header: String)
+```
+
+## addSubstitutionQueryParam
+Adds a key name for a query parameter that should be subject to secure strings substitution. This means that if the query parameter is present in a URL then the value will be used as a key to look up a secure string value which will be substituted as the query parameter value instead. This allows easy migration to the use of secure strings.
+
+```swift
+public static func addSubstitutionQueryParam(key: String)
+```
+
+## removeSubstitutionQueryParam
+Removes a query parameter key name previously added using `addSubstitutionQueryParam`.
+
+```swift
+public static func removeSubstitutionQueryParam(key: String)
 ```
 
 ## prefetch
