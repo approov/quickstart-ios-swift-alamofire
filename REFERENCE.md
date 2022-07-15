@@ -2,7 +2,7 @@
 This provides a reference for all of the static methods defined on `ApproovService`. These are available if you import as follows:
 
 ```swift
-import ApproovURLSession
+import ApproovSession
 ```
 
 Various methods may throw an `ApproovError` if there is a problem. The enumeration case gives the type of error and the associated value `message` provides a descriptive message. Most error cases represent unrecoverable failures, but if a method throws an `ApproovError.networkingError`, then this indicates the problem was caused by a networking issue, and a user initiated retry should be allowed.

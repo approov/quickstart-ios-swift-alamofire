@@ -5,40 +5,42 @@ This quickstart is written specifically for native iOS apps that are written in 
 This quickstart provides the basic steps for integrating Approov into your app. A more detailed step-by-step guide using a [Shapes App Example](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/SHAPES-EXAMPLE.md) is also available.
  
 To follow this guide you should have received an onboarding email for a trial or paid Approov account.
+
+Note that the minimum requirement is iOS 10. You cannot use Approov in apps that support iOS versions older than this.
  
 ## ADDING APPROOV SERVICE DEPENDENCY
-The Approov integration is available via the [`Swift Package Manager`](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app). This allows inclusion into the project by simply specifying a dependency in the `Add Package Dependency` Xcode option:
+The Approov integration is available via the [`Swift Package Manager`](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app). This allows inclusion into the project by simply specifying a dependency in the `File -> Swift Packages -> Add Package Dependency` Xcode option:
  
 ![Add Package Dependency](readme-images/add-package-repository.png)
  
-This package is actually an open source wrapper layer that allows you to easily use Approov with `Alamofire`. This has a further dependency to the closed source [Approov SDK](https://github.com/approov/approov-ios-sdk).
+This package is actually an open source wrapper layer that allows you to easily use Approov with `Alamofire`. You should select the exact version `3.0.2`.
  
 ## USING APPROOV SERVICE
-The `ApproovSession` class extends the [Session](https://alamofire.github.io/Alamofire/Classes/Session.html) class defined by Alamofire and handles connections by providing pinning and including an additional ApproovSDK attestation call. The simplest way to use the `ApproovSession` class is to find and replace all the `Session` instances with `ApproovSession`.
+The `ApproovSession` class extends the [Session](https://alamofire.github.io/Alamofire/Classes/Session.html) class defined by Alamofire and handles connections by providing pinning and Approov protection. The simplest way to use the `ApproovSession` class is to find and replace all the `Session` creation instances with `ApproovSession`.
  
 ```swift
+import ApproovSession
+
 try! ApproovService.initialize("<enter-your-config-string-here>")
 let session = ApproovSession()
 ```
  
-Additionally, the Approov SDK wrapper class, `ApproovService` needs to be initialized before using the `ApproovSession` object. The `<enter-your-config-string-here>` is a custom string that configures your Approov account access. This will have been provided in your Approov onboarding email (it will be something like `#123456#K/XPlLtfcwnWkzv99Wj5VmAxo4CrU267J1KlQyoz8Qo=`).
+The `ApproovService` needs to be initialized before using the `ApproovSession` object. The `<enter-your-config-string-here>` is a custom string that configures your Approov account access. This will have been provided in your Approov onboarding email (it will be something like `#123456#K/XPlLtfcwnWkzv99Wj5VmAxo4CrU267J1KlQyoz8Qo=`). The `initialize` might throw a `initializationError` or `configurationError` exception if there is a problem.
  
-For API domains that are configured to be protected with an Approov token, this adds the `Approov-Token` header and pins the connection. This may also substitute header values when using secrets protection.
-
-Please note on the above code, the `ApproovService` is instantiated and might throw a `configurationError`exception if the configuration string provided as parameter is different than the already used one to initialize previously. If the underlying Appproov SDK can not be initialized because of a permanent issue, an `initializationFailure` is returned which should be considered permanent. Failure to initialise the `ApproovService` should cancel any network requests since lack of initialization is generally considered fatal.
+For API domains that are configured to be protected with an Approov token, this adds the `Approov-Token` header and pins the connection. This may also substitute header values and query parameters when using secrets protection.
   
 ## ERROR MESSAGES
 The `ApproovService` provides specific type errors when using some functions to provide additional information about the type of error:
  
 * `permanentError` might be due to a feature not enabled using the command line
-* `rejectionError` an attestation has been rejected, the `ARC` and `rejectionReasons` may contain specific device information that would help troubleshooting
-* `networkingError` generally can be retried since it can be temporary network issue
+* `rejectionError` is an attestation has been rejected, the `ARC` and `rejectionReasons` may contain specific device information that would help troubleshooting
+* `networkingError` can generally be retried since it can be temporary network issue
 * `pinningError` is a certificate error
-* `configurationError` a configuration feature is disabled or wrongly configured (i.e. attempting to initialize with different config)
-* `initializationFailure` the ApproovService failed to be initialized
+* `configurationError` is due to an attempt to initialize with a different configuration
+* `initializationFailure` occurs if the ApproovService failed to be initialized
  
 ## CHECKING IT WORKS
-Initially you won't have set which API domains to protect, so the interceptor will not add anything. It will have called Approov though and made contact with the Approov cloud service. You will see logging from Approov saying `UNKNOWN_URL`.
+Initially you won't have set which API domains to protect, so the interceptor will not add anything. It will have called Approov though and made contact with the Approov cloud service. You will see logging from Approov saying `unknown URL`.
  
 Your Approov onboarding email should contain a link allowing you to access [Live Metrics Graphs](https://approov.io/docs/latest/approov-usage-documentation/#metrics-graphs). After you've run your app with Approov integration you should be able to see the results in the live metrics within a minute or so. At this stage you could even release your app to get details of your app population and the attributes of the devices they are running upon.
  
@@ -54,9 +56,7 @@ Note that it is possible to use both approaches side-by-side in the same app, in
 See [REFERENCE](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/REFERENCE.md) for a complete list of all of the `ApproovService` methods.
 
 ## BITCODE SUPPORT
-In order to use a bitcode enabled Approov service, you can still use the swift package repository at `https://github.com/approov/approov-service-alamofire` but append the `-bitcode` suffix to the required SDK version, i.e you should use `3.0.1-bitcode` as a version in the Swift PM window. Head to the Github repository location at `https://github.com/approov/approov-service-alamofire` and check the tags, selecting the latest version of the package that supports bitcode:
-
-![Approov Service Packages](readme-images/ApproovServicePackages.png)
+In order to use a bitcode enabled Approov service, you can still use the swift package repository at `https://github.com/approov/approov-service-alamofire` but append the `-bitcode` suffix to the required SDK version, i.e you should use `3.0.2-bitcode` as a version in the Swift PM window.
 
 ## ALAMOFIRE FEATURES
 Additional optional features regarding `Alamofire` are desribed [here](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/ALAMOFIRE-OPTIONS.md)

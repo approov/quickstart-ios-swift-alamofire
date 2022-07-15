@@ -129,12 +129,12 @@ Here is an example of using the required method in ApproovService:
 ```swift
 
 ....
-var key:String?
-var newDef:String?
-var secret:String?
+var key: String
+var newDef: String?
+var secret: String?
 // define key and newDefinition here
 do {
-    try secret = ApproovService.fetchSecureString(key: key!, newDef: newDef!)
+    try secret = ApproovService.fetchSecureString(key: key, newDef: newDef)
 } catch ApproovError.rejectionError(let message, let ARC , let rejectionReasons ) {
     // failure due to the attestation being rejected, the ARC and rejectionReasons objects contain additional information
 } catch ApproovError.permanentError(let message) {
@@ -166,7 +166,7 @@ You may wish to do an early check in your app to present a warning to the user i
 ```swift
 do {
     try ApproovService.precheck()
-} catch ApproovError.rejectionError(let message, let ARC , let rejectionReasons ) {
+} catch ApproovError.rejectionError(let message, let ARC, let rejectionReasons) {
     // failure due to the attestation being rejected, the ARC and rejectionReasons objects contain additional information
 } catch ApproovError.networkingError(let message) {
     // we are unable to get the secure string due to network conditions so the request can

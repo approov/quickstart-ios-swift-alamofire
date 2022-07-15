@@ -17,23 +17,42 @@
 import UIKit
 import Alamofire
 
+// *** UNCOMMENT IF USING APPROOV
+//import ApproovSession
 
 class ViewController: UIViewController {
-    
     @IBOutlet weak var statusImageView: UIImageView!
     @IBOutlet weak var statusTextView: UILabel!
     
-    var session:Session?
-    let httpPrefix = "https://"
-    let urlNameCheck = "shapes.approov.io/v1/hello"
-    static let currentShapesEndpoint = "v1"    // Current shapes endpoint
-    let urlNameVerify = "shapes.approov.io/" + currentShapesEndpoint + "/shapes"
-    //*** CHANGE THE LINE BELOW FOR APPROOV USING SECRETS PROTECTION TO `shapes_api_key_placeholder`
+    var session: Session?
+    let urlHello = "https://shapes.approov.io/v1/hello"
+    
+    // *** COMMENT OUT IF USING APPROOV API PROTECTION
+    static let currentShapesEndpoint = "v1"
+    
+    // *** UNCOMMENT IF USING APPROOV API PROTECTION
+    //static let currentShapesEndpoint = "v3"
+    
+    let urlShapes = "https://shapes.approov.io/" + currentShapesEndpoint + "/shapes"
+    
+    // *** COMMENT IF USING APPROOV SECRETS PROTECTION
     let apiSecretKey = "yXClypapWNHIifHUWmBIyPFAm"
     
+    // *** UNCOMMENT IF USING APPROOV SECRETS PROTECTION
+    //let apiSecretKey = "shapes_api_key_placeholder"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // *** COMMENT OUT IF USING APPROOV
+        session = Session()
+        
+        // *** UNCOMMENT TO USE APPROOV
+        //session = ApproovSession()
+        //try! ApproovService.initialize(config: "<enter-you-config-string-here>")
+        
+        // *** UNCOMMENT IF USING APPROOV SECRETS PROTECTION
+        //ApproovService.addSubstitutionHeader(header: "Api-Key", prefix: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -41,143 +60,84 @@ class ViewController: UIViewController {
     }
     
     // check unprotected hello endpoint
-
     @IBAction func checkHello() {
-        // Display busy screen
         DispatchQueue.main.async {
             self.statusImageView.image = UIImage(named: "approov")
             self.statusTextView.text = "Checking connectivity..."
         }
-        // Create the session if not creeated
-        initializeSession()
-        let task = session!.request(httpPrefix + urlNameCheck).responseData{ response in
-            let message: String
-            let image: UIImage?
-            
-            // analyze response
+        let task = session!.request(urlHello).responseData{ response in
+            var message = "unknown networking error"
+            var image = UIImage(named: "confused")
             if response.error != nil {
-                // other networking failure
-                message = "Unknown networking error"
-                image = UIImage(named: "confused")
+                message = "response: \(response.error!.localizedDescription)"
             } else {
                 if let httpResponse = response.response {
                     let code = httpResponse.statusCode
+                    let reason = HTTPURLResponse.localizedString(forStatusCode: code)
+                    message = "\(code): \(reason)"
                     if code == 200 {
-                        // successful http response
                         message = "\(code): OK"
                         image = UIImage(named: "hello")
-                    } else {
-                        // unexpected http response
-                        let reason = HTTPURLResponse.localizedString(forStatusCode: code)
-                        message = "\(code): \(reason)"
-                        image = UIImage(named: "confused")
                     }
-                } else {
-                    // not an http response
-                    message = "Networking error: \(response.error!.localizedDescription)"
-                    image = UIImage(named: "confused")
                 }
             }
-            
-            NSLog("\(self.httpPrefix + self.urlNameCheck): \(message)")
-            
-            // Display the image on screen using the main queue
+            NSLog("\(self.urlHello): \(message)")
             DispatchQueue.main.async {
                 self.statusImageView.image = image
                 self.statusTextView.text = message
             }
         }
-        
         task.resume()
     }
     
-    // check Approov-protected shapes endpoint
-
+    // check shapes endpoint
     @IBAction func checkShape() {
-        // Display busy screen
         DispatchQueue.main.async {
             self.statusImageView.image = UIImage(named: "approov")
             self.statusTextView.text = "Checking app authenticity..."
         }
-        // Create the session
-        initializeSession()
-        var request = URLRequest(url: URL(string: httpPrefix + urlNameVerify)!)
+        var request = URLRequest(url: URL(string: urlShapes)!)
         request.setValue(apiSecretKey, forHTTPHeaderField: "Api-Key")
         let task = session!.request(request).responseData { response in
-            var message: String
-            let image: UIImage?
-            
-            // analyze response
+            var message = "unknown networking error"
+            var image = UIImage(named: "confused")
             if response.error != nil {
-                // other networking failure
-                message = "Networking error: \(response.error!.localizedDescription)"
-                image = UIImage(named: "confused")
+                message = "response: \(response.error!.localizedDescription)"
             } else {
                 if let httpResponse = response.response {
-                let code = httpResponse.statusCode
-                if code == 200 {
-                    // successful http response
-                    message = "\(code): Approoved!"
-                    // unmarshal the JSON response
-                    do {
-                        let jsonObject = try JSONSerialization.jsonObject(with: response.data!, options: [])
-                        let jsonDict = jsonObject as? [String: Any]
-                        let shape = (jsonDict!["shape"] as? String)!.lowercased()
-                        switch shape {
-                        case "circle":
-                            image = UIImage(named: "circle")
-                        case "rectangle":
-                            image = UIImage(named: "rectangle")
-                        case "square":
-                            image = UIImage(named: "square")
-                        case "triangle":
-                            image = UIImage(named: "triangle")
-                        default:
-                            message = "\(code): Approoved: unknown shape '\(shape)'"
-                            image = UIImage(named: "confused")
-                        }
-                    } catch {
-                        message = "\(code): Invalid JSON from Shapes response"
-                        image = UIImage(named: "confused")
-                    }
-                } else {
-                    // unexpected http response
+                    let code = httpResponse.statusCode
                     let reason = HTTPURLResponse.localizedString(forStatusCode: code)
                     message = "\(code): \(reason)"
-                    image = UIImage(named: "confused")
+                    if code == 200 {
+                        do {
+                            let jsonObject = try JSONSerialization.jsonObject(with: response.data!, options: [])
+                            let jsonDict = jsonObject as? [String: Any]
+                            message = (jsonDict!["status"] as? String)!
+                            let shape = (jsonDict!["shape"] as? String)!.lowercased()
+                            switch shape {
+                                case "circle":
+                                    image = UIImage(named: "circle")
+                                case "rectangle":
+                                    image = UIImage(named: "rectangle")
+                                case "square":
+                                    image = UIImage(named: "square")
+                                case "triangle":
+                                    image = UIImage(named: "triangle")
+                                default:
+                                    message = "\(code): unknown shape '\(shape)'"
+                            }
+                        } catch {
+                            message = "Invalid JSON from Shapes response"
+                        }
+                    }
                 }
-            } else {
-                // not an http response
-                message = "Not an HTTP response"
-                image = UIImage(named: "confused")
             }
-        
-            NSLog("\(self.httpPrefix + self.urlNameVerify): \(message)")
-
-            // Display the image on screen using the main queue
+            NSLog("\(self.urlShapes): \(message)")
             DispatchQueue.main.async {
                 self.statusImageView.image = image
                 self.statusTextView.text = message
             }
         }
-    }
-    
-    task.resume()
-
-    }
-    
-    // Create the session only if it does not exist yet
-    func initializeSession(){
-        if (session == nil) {
-            // *** COMMENT OUT IF USING APPROOV APPROOV
-            session = Session()
-            // *** UNCOMMENT TO USE APPROOV
-            //session = ApproovSession()
-            //try! ApproovService.initialize(config: "<enter-you-config-string-here>")
-            
-            // *** UNCOMMENT THE LINE BELOW FOR APPROOV USING SECRETS PROTECTION ***
-            //ApproovService.addSubstitutionHeader(header: "Api-Key", prefix: nil)
-        }
+        task.resume()
     }
 }
-
