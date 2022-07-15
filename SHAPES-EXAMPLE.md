@@ -39,9 +39,11 @@ This checks the connectivity by connecting to the endpoint `https://shapes.appro
    <img src="readme-images/shape.png" width="256" title="Shape">
 </p>
  
-This contacts `https://shapes.approov.io/v1/shapes` to get the name of a random shape. It gets a shape and a status code 200 since it does not authenticate the request. Next, you will add Approov into the app so that it can generate valid Approov tokens and get shapes from an endpoint that requires authentication.
+This contacts `https://shapes.approov.io/v1/shapes` to get the name of a random shape. This endpoint is protected with an API key that is built into the code, and therefore can be easily extracted from the app.
+
+The subsequent steps of this guide show you how to provide better protection, either using an Approov token or by migrating the API key to become an Approov managed secret.
  
-## ADD THE APPROOV SDK AND THE APPROOV SERVICE ALAMOFIRE
+## ADD THE APPROOV SERVICE ALAMOFIRE
  
 Get the latest Approov SDK by using `swift package manager`. The repository located at `https://github.com/approov/approov-service-alamofire.git` includes as a dependency the closed source Approov SDK alonside the `Alamofire SDK` and includes branches pointing to the relevant Approov SDK release versions. The `approov-service-alamofire` is actually an open source wrapper layer that allows you to easily use Approov with Alamofire.
 
