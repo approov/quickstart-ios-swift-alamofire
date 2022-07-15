@@ -9,19 +9,19 @@ The `ApproovInterceptor` class implements Alamofire's Interceptor protocol which
 The `ApproovSession` object internally handles the creation of a default `AproovTrustManager` that handles dynamic pinning. You may set your own `ServerTrustManager` during construction like so:
 
 ```swift
-    session = ApproovSession(serverTrustManager: manager)
+let session = ApproovSession(serverTrustManager: manager)
 ```
 However, if you do this then Approov dynamic pinning WILL NOT be applied.
 
 An alternative is to use the `ApproovTrustManager` along with your own `ServerTrustEvaluating` implementations as follows:
 
 ```swift
-    let evaluators: [String: ServerTrustEvaluating] = [
-        "some.other.host.com": RevocationTrustEvaluator(),
-        "another.host": PinnedCertificatesTrustEvaluator()
-    ]
-    let manager = ApproovTrustManager(allHostsMustBeEvaluated: true, evaluators: evaluators)
-    session = ApproovSession(serverTrustManager: manager)
+let evaluators: [String: ServerTrustEvaluating] = [
+    "some.other.host.com": RevocationTrustEvaluator(),
+    "another.host": PinnedCertificatesTrustEvaluator()
+]
+let manager = ApproovTrustManager(allHostsMustBeEvaluated: true, evaluators: evaluators)
+let session = ApproovSession(serverTrustManager: manager)
 ```
 
 This approach will use the Approov dynamic pinning for all hosts that are being [mangaged](https://approov.io/docs/latest/approov-usage-documentation/#managing-api-domains) by Approov. Other host names will be passed to your custom evaluators. If you specify an evaluator that is also managed by Approov, then Approov will take precedence.
@@ -30,23 +30,23 @@ This approach will use the Approov dynamic pinning for all hosts that are being 
 If your code makes use of the default Alamofire `Session`, like so:
 
 ```swift
-    AF.request("https://httpbin.org/get").response { response in
-        debugPrint(response)
-    }
+AF.request("https://httpbin.org/get").response { response in
+    debugPrint(response)
+}
 ```
 
 all you will need to do to use Approov is to replace the default `Session` object with the `ApproovSession`:
 
 ```swift
-    let approovSession = ApproovSession()
-    approovSession!.request("https://httpbin.org/get").responseData { response in
-        debugPrint(response)
-    }
+let approovSession = ApproovSession()
+approovSession!.request("https://httpbin.org/get").responseData { response in
+    debugPrint(response)
+}
 ```
 
 ## Network Delegate
 You may specify your own network delegate when the `ApproovSession` is constructed as follows:
 
 ```swift
-    session = ApproovSession(delegate: delegate)
+let session = ApproovSession(delegate: delegate)
 ```

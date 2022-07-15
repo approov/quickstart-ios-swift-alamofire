@@ -56,7 +56,7 @@ Note that it is possible to use both approaches side-by-side in the same app, in
 See [REFERENCE](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/REFERENCE.md) for a complete list of all of the `ApproovService` methods.
 
 ## BITCODE SUPPORT
-In order to use a bitcode enabled Approov service, you can still use the swift package repository at `https://github.com/approov/approov-service-alamofire` but append the `-bitcode` suffix to the required SDK version, i.e you should use `3.0.2-bitcode` as a version in the Swift PM window.
+In order to use a bitcode enabled Approov service, you can still use the swift package repository at `https://github.com/approov/approov-service-alamofire` but append the `-bitcode` suffix to the required SDK version, i.e you should use `3.0.2-bitcode` as an exact version in the Swift PM window.
 
 ## ALAMOFIRE FEATURES
-Additional optional features regarding `Alamofire` are desribed [here](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/ALAMOFIRE-OPTIONS.md)
+Additional optional features regarding `Alamofire` are described [here](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/ALAMOFIRE-OPTIONS.md)
