@@ -5,9 +5,9 @@ This quickstart is written specifically for native iOS apps that are written in 
 ## WHAT YOU WILL NEED
 * Access to a trial or paid Approov account
 * The `approov` command line tool [installed](https://approov.io/docs/latest/approov-installation/) with access to your account
-* [Xcode](https://developer.apple.com/xcode/) version 13 installed (version 13.3 is used in this guide)
+* [Xcode](https://developer.apple.com/xcode/) installed (version 13.4.1 is used in this guide)
+* An Apple mobile device or simulator with iOS 10 or higher
 * The contents of this repo
-* An Apple mobile device with iOS 10 or higher
  
 ## ALAMOFIRE FRAMEWORK
  
@@ -44,16 +44,14 @@ This contacts `https://shapes.approov.io/v1/shapes` to get the name of a random 
 The subsequent steps of this guide show you how to provide better protection, either using an Approov token or by migrating the API key to become an Approov managed secret.
  
 ## ADD THE APPROOV SERVICE ALAMOFIRE
- 
-Get the latest Approov SDK by using `swift package manager`. The repository located at `https://github.com/approov/approov-service-alamofire.git` includes as a dependency the closed source Approov SDK alonside the `Alamofire SDK` and includes branches pointing to the relevant Approov SDK release versions. The `approov-service-alamofire` is actually an open source wrapper layer that allows you to easily use Approov with Alamofire.
 
-Install the dependency by selecting the `ApproovShapes` project in Xcode and then selecting `File -> Swift Packages -> Add Package Dependency`:
+Add the Swift package manager dependency by selecting the `ApproovShapes` project in Xcode and then `File -> Add Packages...`:
  
 ![Add Package Repository](readme-images/add-package-repository.png)
  
-You will then have to select the relevant Approov SDK version you wish to use. To do so, select the `Exact Version` option and enter `3.0.2`.
+Enter the repository `https://github.com/approov/approov-service-alamofire.git` into the search box. You will then have to select the relevant version you wish to use. To do so, select the `Exact Version` option and enter `3.0.2`.
  
-Once you click `Next` the last screen will confirm the package product and target selection. The `approov-service-alamofire` and Approov SDK are now included as a dependency in your project.
+Once you click `Next` the last screen will confirm the package product and target selection. The `approov-service-alamofire` and Approov SDK are now included as a dependency in your project. The `approov-service-alamofire` is actually an open source wrapper layer that allows you to easily use the Approov SDK itself with Alamofire.
 
 ## ENSURE THE SHAPES API IS ADDED
  
@@ -109,8 +107,10 @@ $ approov registration -add ApproovShapes.ipa
 
 ## RUNNING THE SHAPES APP WITH APPROOV
  
-Install the `ApproovShapes.ipa` that you just registered on the device. You will need to remove the old app from the device first. Please note that you need to run the application with Approov SDK on a real device and not a simulator. If you are using an emulator, you will need to learn how to ensure your device [always passes](https://approov.io/docs/latest/approov-usage-documentation/#adding-a-device-security-policy) since the simulators are not real devices and you will not be able to successfully authenticate the app.
- 
+Install the `ApproovShapes.ipa` that you just registered on the device. You will need to remove the old app from the device first.
+
+Please note that if you are using an simulator you will need to learn how to ensure it [always passes](https://approov.io/docs/latest/approov-usage-documentation/#adding-a-device-security-policy) since the simulators are not real devices and will normally cause an Approov rejection.
+
 If using Mac OS Catalina, simply drag the `ipa` file to the device. Alternatively you can select `Window`, then `Devices and Simulators` and after selecting your device click on the small `+` sign to locate the `ipa` archive you would like to install.
  
 ![Install IPA Xcode](readme-images/install-ipa.png)

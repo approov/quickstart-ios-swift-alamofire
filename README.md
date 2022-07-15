@@ -9,11 +9,13 @@ To follow this guide you should have received an onboarding email for a trial or
 Note that the minimum requirement is iOS 10. You cannot use Approov in apps that support iOS versions older than this.
  
 ## ADDING APPROOV SERVICE DEPENDENCY
-The Approov integration is available via the [`Swift Package Manager`](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app). This allows inclusion into the project by simply specifying a dependency in the `File -> Swift Packages -> Add Package Dependency` Xcode option:
+The Approov integration is available via the [`Swift Package Manager`](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app). This allows inclusion by simply specifying a dependency in the `File -> Add Packages..` Xcode option available if the project is selected:
  
 ![Add Package Dependency](readme-images/add-package-repository.png)
  
-This package is actually an open source wrapper layer that allows you to easily use Approov with `Alamofire`. You should select the exact version `3.0.2`.
+Enter the repository `https://github.com/approov/approov-service-alamofire.git` into the search box. You will then have to select the relevant version you wish to use. To do so, select the `Exact Version` option and enter `3.0.2`.
+
+Once you click `Next` the last screen will confirm the package product and target selection. The `approov-service-alamofire` and Approov SDK are now included as a dependency in your project. The `approov-service-alamofire` is actually an open source wrapper layer that allows you to easily use the Approov SDK itself with Alamofire.
  
 ## USING APPROOV SERVICE
 The `ApproovSession` class extends the [Session](https://alamofire.github.io/Alamofire/Classes/Session.html) class defined by Alamofire and handles connections by providing pinning and Approov protection. The simplest way to use the `ApproovSession` class is to find and replace all the `Session` creation instances with `ApproovSession`.
