@@ -75,10 +75,9 @@ import ApproovSession
 Find the function definition for `viewDidLoad()` in the `ViewController.swift` source file. Uncomment the code below (and remember to comment the previous version):
 
 ```swift
-   // *** UNCOMMENT TO USE APPROOV
-   session = ApproovSession()
-   try! ApproovService.initialize(config: "<enter-you-config-string-here>")
-}
+// *** UNCOMMENT TO USE APPROOV
+session = ApproovSession()
+try! ApproovService.initialize(config: "<enter-you-config-string-here>")
 ```
 
 Replace `<enter-you-config-string-here>"` with the actual configuration string for your account. You will have received this in your Approov onboarding email (it will be something like `#12456#K/XPlLtfcwnWkzv99Wj5VmAxo4CrU267J1KlQyoz8Qo=`). The `ApproovSession` class adds the `Approov-Token` header and also applies pinning for the connections to ensure that no Man-in-the-Middle can eavesdrop on any communication being made.
