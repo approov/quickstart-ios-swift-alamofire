@@ -13,7 +13,7 @@ The Approov integration is available via the [`Swift Package Manager`](https://d
  
 ![Add Package Repository](readme-images/add-package-repository.png)
  
-Enter the repository `https://github.com/approov/approov-service-alamofire.git` into the search box. You will then have to select the relevant version you wish to use. To do so, select the `Exact Version` option and enter `3.0.2`.
+Enter the repository `https://github.com/approov/approov-service-alamofire.git` into the search box. You will then have to select the relevant version you wish to use. To do so, select the `Exact Version` option and enter a specific version you require or use de latest one, which should automatically be selected for you.
 
 Once you click `Add Package` the last screen will confirm the package product and target selection. The `approov-service-alamofire` and Approov SDK are now included as a dependency in your project. The `approov-service-alamofire` is actually an open source wrapper layer that allows you to easily use the Approov SDK itself with Alamofire.
  
@@ -58,7 +58,7 @@ Note that it is possible to use both approaches side-by-side in the same app, in
 See [REFERENCE](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/REFERENCE.md) for a complete list of all of the `ApproovService` methods.
 
 ## BITCODE SUPPORT
-In order to use a bitcode enabled Approov service, you can still use the swift package repository at `https://github.com/approov/approov-service-alamofire` but append the `-bitcode` suffix to the required SDK version, i.e you should use `3.0.2-bitcode` as an exact version in the Swift PM window.
+In order to use a bitcode enabled Approov service, you can still use the swift package repository at `https://github.com/approov/approov-service-alamofire` but append the `-bitcode` suffix to the required SDK version, i.e you should use `3.1.0-bitcode` as an exact version in the Swift PM window.
 
 ## ALAMOFIRE FEATURES
 Additional optional features regarding `Alamofire` are described [here](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/ALAMOFIRE-OPTIONS.md)
