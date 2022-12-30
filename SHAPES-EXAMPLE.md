@@ -20,6 +20,8 @@ Open the `ApproovShapes.xcworkspace` project in the `shapes-app` folder using `F
 Select your code signing certificate in the `Signing & Capabilities` tab and run the application on your prefered device. Note that if you have difficulties codesigning the application, change the `Bundle Identifier` in the General tab to contain a unique prefix.
  
 ![Codesign App](readme-images/codesign-app.png)
+
+> Note that from Xcode 14, the minimum deployment target is iOS 11.0 and you will need to update to this in the general settings to allow compilation.
  
 Once the application is running you will see two buttons:
  
