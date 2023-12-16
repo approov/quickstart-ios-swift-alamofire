@@ -27,6 +27,13 @@ public static func setProceedOnNetworkFailure(proceed: Bool)
 
 Note that this should be used with *CAUTION* because it may allow a connection to be established before any dynamic pins have been received via Approov, thus potentially opening the channel to a MitM.
 
+## SetDevKey
+[Sets a development key](https://approov.io/docs/latest/approov-usage-documentation/#using-a-development-key) in order to force an app to be passed. This can be used if the app has to be resigned in a test environment and would thus fail attestation otherwise.
+
+```swift
+public static func setDevKey(devKey: String)
+```
+
 ## setApproovHeader
 Allows to set the name of the header (`approovTokenHeader`) that the Approov token is added on, as well as an optional `prefix` String (such as "`Bearer `"). Set `prefix` parameter to an empty string if it is not required. By default the token is provided on `Approov-Token` with no prefix.
 
