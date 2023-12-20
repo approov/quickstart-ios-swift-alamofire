@@ -51,7 +51,7 @@ Add the Swift package manager dependency by selecting the `ApproovShapes` projec
  
 ![Add Package Repository](readme-images/add-package-repository.png)
  
-Enter the repository `https://github.com/approov/approov-service-alamofire.git` into the search box. You will then have to select the relevant version you wish to use. To do so, select the `Exact Version` option and the latest version available should be selected for you; if that is not the case, enter `3.1.2-signed`
+Enter the repository `https://github.com/approov/approov-service-alamofire.git` into the search box. You will then have to select the relevant version you wish to use. To do so, select the `Exact Version` option and the latest version available should be selected for you.
  
 Once you click `Add Package` the last screen will confirm the package product and target selection. The `approov-service-alamofire` and Approov SDK are now included as a dependency in your project. The `approov-service-alamofire` is actually an open source wrapper layer that allows you to easily use the Approov SDK itself with Alamofire.
 
