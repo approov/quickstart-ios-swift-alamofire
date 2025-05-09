@@ -9,14 +9,33 @@ Various methods may throw an `ApproovError` if there is a problem. The enumerati
 
 If a method throws an `ApproovError.rejectionError`, then this indicates the problem was that the app failed attestation. An additional associated value `ARC` provides the [Attestation Response Code](https://approov.io/docs/latest/approov-usage-documentation/#attestation-response-code), which could be provided to the user for communication with your app support to determine the reason for failure, without this being revealed to the end user. The associated value `rejectionReasons` provides the [Rejection Reasons](https://approov.io/docs/latest/approov-usage-documentation/#rejection-reasons) if the feature is enabled, providing a comma separated list of reasons why the app attestation was rejected.
 
-## Iinitialize
+## initialize
 Initializes the Approov SDK and thus enables the Approov features. The `config` will have been provided in the initial onboarding or email or can be [obtained using the Approov CLI](https://approov.io/docs/latest/approov-usage-documentation/#getting-the-initial-sdk-configuration). This will generate an error if a second attempt is made at initialization with a different `config`.
 
 ```swift
-public static func initialize(config: String) throws
+public static func initialize(config: String, comment: String? = nil) throws
 ```
 
 It is possible to pass an empty `config` string to indicate that no initialization is required. Only do this if you are also using a different Approov quickstart in your app (which will use the same underlying Approov SDK) and this will have been initialized first.
+
+The optional `comment` parameter allows to provide further options to the initialization. Please refer to the [Approov SDK documentation](https://approov.io/docs/latest/approov-direct-sdk-integration/#sdk-initialization-options) for details.
+
+ ## setApproovInterceptorExtensions
+ Sets the interceptor extensions callback handler. This facility supports message signing that is independent from the rest of the attestation flow. The default ApproovService layer issues no callbacks. Provide a non-null handler to add functionality to the attestation flow. The configuration used to control installation message signing is passed in the `callbacks` parameter. The behavior of the provided configuration must remain constant while in use by the ApproovService.
+
+ ```swift
+ public static func setApproovInterceptorExtensions(_ callbacks: ApproovInterceptorExtensions?)
+ ```
+
+ Provide an ApproovDefaultMessageSigning object instantiated as shown below to enable installation message signing:
+
+ ```java
+     ApproovService.setApproovInterceptorExtensions(
+         new ApproovDefaultMessageSigning().setDefaultFactory(
+             ApproovDefaultMessageSigning.generateDefaultSignatureParametersFactory()));
+ ```
+
+ Passing `nil` to this method will disable message signing.
 
 ## setProceedOnNetworkFail
 If `proceedOnNetworkFail` is set to `true` then this indicates that the networking should proceed anyway if it is not possible to obtain an Approov token due to a networking failure. If this is called then the backend API can receive calls without the expected Approov token header being added, or without header substitutions being made. This should only ever be used if there is some particular reason, perhaps due to local network conditions, that you believe that traffic to the Approov cloud service will be particularly problematic.
@@ -35,7 +54,7 @@ public static func setDevKey(devKey: String)
 ```
 
 ## setApproovHeader
-Allows to set the name of the header (`approovTokenHeader`) that the Approov token is added on, as well as an optional `prefix` String (such as "`Bearer `"). Set `prefix` parameter to an empty string if it is not required. By default the token is provided on `Approov-Token` with no prefix.
+Allows to set the name of the header (`approovTokenHeader`) that the Approov token is added on, as well as an optional `prefix` String (such as "`Bearer `"). Set `approovTokenPrefix` to the empty string if it is not required. By default the token is provided on `Approov-Token` with no prefix.
 
 ```swift
 public static func setApproovHeader(header: String, prefix: String)
@@ -118,7 +137,7 @@ public static func getDeviceID() -> String?
 This returns `nil` if there is an error obtaining the device ID.
 
 ## setDataHashInToken
-Directly sets the [token binding](https://approov.io/docs/latest/approov-usage-documentation/#token-binding) hash to be included in subsequently fetched Approov tokens. If the hash is different from any previously set value then this will cause the next token fetch operation to fetch a new token with the correct payload data hash. The hash appears in the `pay` claim of the Approov token as a base64 encoded string of the SHA256 hash of the data. Note that the data is hashed locally and never sent to the Approov cloud service. This is an alternative to using `bindHeader` and you should not use both methods at the same time.
+Directly sets the [token binding](https://approov.io/docs/latest/approov-usage-documentation/#token-binding) hash to be included in subsequently fetched Approov tokens. If the hash is different from any previously set value then this will cause the next token fetch operation to fetch a new token with the correct payload data hash. The hash appears in the `pay` claim of the Approov token as a base64 encoded string of the SHA256 hash of the data. Note that the data is hashed locally and never sent to the Approov cloud service. This is an alternative to using `bindingHeader` and you should not use both methods at the same time.
 
 ```swift
 public static func setDataHashInToken(data: String)
@@ -134,13 +153,29 @@ public static func fetchToken(url: String) throws -> String
 This throws `ApproovError` if there was a problem obtaining an Approov token. This may require network access so may take some time to complete, and should not be called from the UI thread.
 
 ## getMessageSignature
-Gets the [message signature](https://approov.io/docs/latest/approov-usage-documentation/#message-signing) for the given `message`. This is returned as a base64 encoded signature. This feature uses an account specific message signing key that is transmitted to the SDK after a successful fetch if the facility is enabled for the account. Note that if the attestation failed then the signing key provided is actually random so that the signature will be incorrect. An Approov token should always be included in the message being signed and sent alongside this signature to prevent replay attacks.
+**DEPRECATED**, replaced by `getAccountMessageSignature`.
 
 ```swift
 public static func getMessageSignature(message: String) -> String?
 ```
 
-This return `nil` if there was an error obtaining the signature.
+## getAccountMessageSignature
+Gets the [account message signature](https://approov.io/docs/latest/approov-usage-documentation/#account-message-signing) for the given `message`. This is returned as a base64 encoded signature. This feature uses an account specific message signing key that is transmitted to the SDK after a successful fetch if the facility is enabled for the account. Note that if the attestation failed then the signing key provided is actually random so that the signature will be incorrect. An Approov token should always be included in the message being signed and sent alongside this signature to prevent replay attacks.
+
+```swift
+public static func getAccountMessageSignature(message: String) -> String?
+```
+
+This returns `nil` if there was an error obtaining the signature.
+
+## getInstallMessageSignature
+Gets the [install message signature](https://approov.io/docs/latest/approov-usage-documentation/#installation-message-signing) for the given message. This is returned as the base64 encoding of the signature in ASN.1 DER format. This feature uses an app install specific message signing key that is generated the first time an app launches. This signing mechanism uses an ECC key pair where the private key is managed by the secure element or trusted execution environment of the device. An Approov token should always be included in the message being signed and sent alongside this signature to prevent replay attacks.
+
+```swift
+public static func getInstallMessageSignature(message: String) -> String?
+```
+
+This returns `nil` if there was an error obtaining the signature.
 
 ## fetchSecureString
 Fetches a [secure string](https://approov.io/docs/latest/approov-usage-documentation/#secure-strings) with the given `key` if `newDef` is `nil`. Returns `nil` if the `key` secure string is not defined. If `newDef` is not `nil` then a secure string for the particular app instance may be defined. In this case the new value is returned as the secure string. Use of an empty string for `newDef` removes the string entry. Note that the returned string should NEVER be cached by your app, you should call this function when it is needed.

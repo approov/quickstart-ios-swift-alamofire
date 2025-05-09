@@ -36,7 +36,7 @@ If the secret value needs to be provided on the header `your-header` then it is 
 ApproovService.addSubstitutionHeader(header: "your-header", prefix: nil)
 ```
 
-With this in place, network calls using `ApproovSession` should replace the `your-secret-name` with `your-secret-value` as required when the app passes attestation. Since the mapping lookup is performed on the secret name you have the flexibility of providing different secrets on different API calls, even if they are passed with the same header name.
+With this in place, network calls using `ApproovSession` should replace `your-secret-name` with `your-secret-value` as required when the app passes attestation. Since the mapping lookup is performed on the secret name you have the flexibility of providing different secrets on different API calls, even if they are passed with the same header name.
 
 You can see a [worked example](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/SHAPES-EXAMPLE.md#shapes-app-with-secrets-protection) for the Shapes app.
 
@@ -57,16 +57,18 @@ In this case it is possible to make an explicit call at runtime to obtain the se
 var secret: String?
 do {
     try secret = ApproovService.fetchSecureString(key: "your-secret-name", newDef: nil)
-} catch ApproovError.rejectionError(let message, let ARC , let rejectionReasons ) {
+} catch ApproovError.rejectionError(let message, let ARC, let rejectionReasons) {
     // failure due to the attestation being rejected, the ARC and rejectionReasons objects
     // contain additional information
+} catch ApproovError.configurationError(let message) {
+    // feature has not been enabled using the command line tools
 } catch ApproovError.permanentError(let message) {
-    // A feature has not been enabled using the command line tools
+    // we are unable to get the secure string due to a more permanent error
 } catch ApproovError.networkingError(let message) {
     // we are unable to get the secure string due to network conditions so the request can
     // be retried by the user later
 } catch {
-    // Unexpected error
+    // unexpected error
 }
 // use secret as required, but never cache or store its value - note secret will be nil if
 // the provided secret name is not defined
@@ -87,7 +89,7 @@ approov policy -setRejectionReasons on
 
 > Note that this command requires an [admin role](https://approov.io/docs/latest/approov-usage-documentation/#account-access-roles).
 
-You will then be able to use the `rejectionReasons` key in the `Error` type returned from the network call to obtain a comma separated list of [device properties](https://approov.io/docs/latest/approov-usage-documentation/#device-properties) responsible for causing the rejection.
+You will then be able to use the `rejectionReasons` value in the `ApproovError.rejectionError` returned from the network call to obtain a comma separated list of [device properties](https://approov.io/docs/latest/approov-usage-documentation/#device-properties) responsible for causing the rejection.
 
 ## ADD YOUR SIGNING CERTIFICATE TO APPROOV
 You should add the signing certificate used to sign apps. These are available in your Apple development account portal. Go to the initial screen showing program resources:
@@ -119,6 +121,8 @@ You may wish to [set a development key](https://approov.io/docs/latest/approov-u
 ```swift
 ApproovService.setDevKey(devKey: "uDW9FuLVpL1_4zo1")
 ```
+
+See [using a development key](https://approov.io/docs/latest/approov-usage-documentation/#using-a-development-key) to understand how to obtain the development key which is the parameter to the call.
 
 ### Header Prefixes
 In some cases the value to be substituted on a header may be prefixed by some fixed string. A common case is the presence of `Bearer` included in an authorization header to indicate the use of a bearer token. In this case you can specify a prefix as follows:
@@ -153,10 +157,12 @@ do {
     // failure due to the attestation being rejected, the ARC and rejectionReasons objects
     // contain additional information
 } catch ApproovError.networkingError(let message) {
-    // we are unable to get the secure string due to network conditions so the request can
+    // we are unable to perform a precheck due to network conditions so the request can
     // be retried by the user later
+} catch ApproovError.configurationError(let message) {
+    // feature has not been enabled using the command line tools
 } catch ApproovError.permanentError(let message) {
-    // we are unable to get the secure string due to a more permanent error
+    // we are unable to perform a precheck due to a more permanent error
 } catch {
     // Unexpected error
 }
