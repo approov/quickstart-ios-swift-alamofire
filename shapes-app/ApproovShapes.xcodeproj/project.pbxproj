@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -98,6 +98,7 @@
 			name = ApproovShapes;
 			packageProductDependencies = (
 				170C9B582653D55900A162CC /* Alamofire */,
+				9D572ADC2DCE0D1900168741 /* ApproovSession */,
 			);
 			productName = "shapes-client";
 			productReference = 8475651421EFCC4A0094ED94 /* ApproovShapes.app */;
@@ -322,7 +323,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = ios.swift.shapes.demo.approov.io;
+				PRODUCT_BUNDLE_IDENTIFIER = "swift-alamofire.shapes.approov.io";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
@@ -355,7 +356,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = ios.swift.shapes.demo.approov.io;
+				PRODUCT_BUNDLE_IDENTIFIER = "swift-alamofire.shapes.approov.io";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
