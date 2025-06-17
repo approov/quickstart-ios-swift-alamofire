@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2016-present, Critical Blue Ltd.
+// Copyright (c) 2016-present, Approov Ltd.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files
 // (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge,
@@ -23,42 +23,50 @@ import Alamofire
 class ViewController: UIViewController {
     @IBOutlet weak var statusImageView: UIImageView!
     @IBOutlet weak var statusTextView: UILabel!
-    
+
     var session: Session?
     let urlHello = "https://shapes.approov.io/v1/hello"
-    
+
     // *** COMMENT OUT IF USING APPROOV API PROTECTION
     static let currentShapesEndpoint = "v1"
-    
+
     // *** UNCOMMENT IF USING APPROOV API PROTECTION
     //static let currentShapesEndpoint = "v3"
-    
+
+    // *** UNCOMMENT THE LINE BELOW FOR APPROOV USING INSTALLATION MESSAGE SIGNING
+    //static let currentShapesEndpoint = "v5"
+
     let urlShapes = "https://shapes.approov.io/" + currentShapesEndpoint + "/shapes"
-    
+
     // *** COMMENT IF USING APPROOV SECRETS PROTECTION
     let apiSecretKey = "yXClypapWNHIifHUWmBIyPFAm"
-    
+
     // *** UNCOMMENT IF USING APPROOV SECRETS PROTECTION
     //let apiSecretKey = "shapes_api_key_placeholder"
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // *** COMMENT OUT IF USING APPROOV
         session = Session()
-        
+
         // *** UNCOMMENT TO USE APPROOV
         //session = ApproovSession()
         //try! ApproovService.initialize(config: "<enter-you-config-string-here>")
-        
+
         // *** UNCOMMENT IF USING APPROOV SECRETS PROTECTION
         //ApproovService.addSubstitutionHeader(header: "Api-Key", prefix: nil)
+
+        //*** UNCOMMENT THE LINES BELOW FOR APPROOV USING INSTALLATION MESSAGE SIGNING
+        //ApproovService.setApproovInterceptorExtensions(
+        //    ApproovDefaultMessageSigning().setDefaultFactory(
+        //        ApproovDefaultMessageSigning.generateDefaultSignatureParametersFactory()))
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
-    
+
     // check unprotected hello endpoint
     @IBAction func checkHello() {
         DispatchQueue.main.async {
@@ -89,7 +97,7 @@ class ViewController: UIViewController {
         }
         task.resume()
     }
-    
+
     // check shapes endpoint
     @IBAction func checkShape() {
         DispatchQueue.main.async {
