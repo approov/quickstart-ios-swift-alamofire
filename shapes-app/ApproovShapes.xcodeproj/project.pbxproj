@@ -98,7 +98,6 @@
 			name = ApproovShapes;
 			packageProductDependencies = (
 				170C9B582653D55900A162CC /* Alamofire */,
-				9D572ADC2DCE0D1900168741 /* ApproovSession */,
 			);
 			productName = "shapes-client";
 			productReference = 8475651421EFCC4A0094ED94 /* ApproovShapes.app */;
