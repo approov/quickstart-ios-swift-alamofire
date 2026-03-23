@@ -69,7 +69,7 @@ Before using Approov you need to import the Alamofire Service. In the `ViewContr
 
 ```swift
 // *** UNCOMMENT IF USING APPROOV
-import ApproovSession
+import ApproovAFSession
 ```
 
 Find the function definition for `viewDidLoad()` in the `ViewController.swift` source file. Uncomment the code below (and remember to comment the previous version):

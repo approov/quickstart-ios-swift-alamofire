@@ -21,7 +21,7 @@ Once you click `Add Package` the last screen will confirm the package product an
 The `ApproovSession` class extends the [Session](https://alamofire.github.io/Alamofire/Classes/Session.html) class defined by Alamofire and handles connections by providing pinning and Approov protection. The simplest way to use the `ApproovSession` class is to find and replace all the `Session` creation instances with `ApproovSession`.
 
 ```swift
-import ApproovSession
+import ApproovAFSession
 
 try! ApproovService.initialize("<enter-your-config-string-here>")
 let session = ApproovSession()
@@ -55,7 +55,7 @@ To actually protect your APIs and/or secrets there are some further steps. Appro
 
 Note that it is possible to use both approaches side-by-side in the same app.
 
-See [REFERENCE](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/REFERENCE.md) for a complete list of all of the `ApproovService` methods.
+See [REFERENCE](https://github.com/approov/approov-service-alamofire/blob/master/REFERENCE.md) for a complete list of all of the `ApproovService` methods.
 
 ## ALAMOFIRE FEATURES
 Additional optional features regarding `Alamofire` are described [here](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/ALAMOFIRE-OPTIONS.md)
