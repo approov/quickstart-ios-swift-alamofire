@@ -58,4 +58,4 @@ Note that it is possible to use both approaches side-by-side in the same app.
 See [REFERENCE](https://github.com/approov/approov-service-alamofire/blob/master/REFERENCE.md) for a complete list of all of the `ApproovService` methods.
 
 ## ALAMOFIRE FEATURES
-Additional optional features regarding `Alamofire` are described [here](https://github.com/approov/quickstart-ios-swift-alamofire/blob/master/ALAMOFIRE-OPTIONS.md)
+Additional optional features regarding `Alamofire` are described [here](https://github.com/approov/approov-service-alamofire/blob/main/ALAMOFIRE-OPTIONS.md)
