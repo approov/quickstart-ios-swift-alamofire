@@ -8,6 +8,8 @@ To follow this guide you should have received an onboarding email for a trial or
 
 Note that the minimum requirement is iOS 12. You cannot use Approov in apps that support iOS versions older than this.
 
+The included iOS sample targets iOS 15 or later and uses the scene-based lifecycle required for apps built with the iOS 27 SDK and run on iOS 27. The sample deployment target matches Xcode 27’s supported range.
+
 ## ADDING APPROOV SERVICE DEPENDENCY
 The Approov integration is available via the [`Swift Package Manager`](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app). This allows inclusion by simply specifying a dependency in the `File -> Add Packages..` Xcode option available if the project is selected:
 
